@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AniStore - My Wishlist</title>
+    <title>Wishlist - AniStore</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,256 +14,114 @@
         .heart-btn.active .heart-icon { fill: #ef4444; }
     </style>
 </head>
-<body class="bg-white">
+<body class="bg-gray-50 min-h-screen flex flex-col">
     <!-- Header -->
     <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center gap-2">
-                    <div class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                    <a href="Category.html" class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                         𝔸
-                    </div>
+                    </a>
                 </div>
                 <nav class="hidden md:flex items-center gap-6 text-sm">
                     <a href="Category.html" class="text-gray-600 hover:text-gray-900 transition-colors">Products</a>
-                    <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">Solutions</a>
-                    <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">Community</a>
-                    <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">Resources</a>
                     <a href="wishlist.html" class="text-gray-600 hover:text-gray-900 transition-colors">Wishlist</a>
-                    <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">Pricing</a>
-                    <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">Contact</a>
-                    <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">Link</a>
                 </nav>
-                <div class="flex items-center gap-4">
+                <div class="flex items-center gap-4" id="nav-right">
                     <a href="carte.html" class="relative p-2 text-gray-600 hover:text-gray-900 transition-colors">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
                         <span id="cart-count" class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center hidden">0</span>
                     </a>
-                    <button class="text-sm text-gray-600 hover:text-gray-900">Sign in</button>
-                    <button class="px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800 transition-colors">Register</button>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Breadcrumb -->
-    <div class="bg-white border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <div class="flex items-center gap-2 text-xs text-gray-500">
-                <a href="#" class="hover:text-gray-700">Home</a>
-                <span>›</span>
-                <span class="text-gray-900">My Wishlist</span>
-            </div>
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        <h1 class="text-3xl font-bold text-gray-900 mb-8">Your Wishlist</h1>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="wishlist-container">
+            <!-- Wishlist items will be injected here -->
         </div>
-    </div>
-
-    <!-- Wishlist Content -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div class="flex items-center justify-between mb-8">
-            <div>
-                <h1 class="text-3xl font-bold text-gray-900 mb-2">My Wishlist</h1>
-                <p id="wishlist-count" class="text-gray-500 text-sm">You have 3 items saved in your wishlist.</p>
-            </div>
-            <div class="flex items-center gap-3">
-                <button class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">Share Wishlist</button>
-                <button class="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors">Add All to Cart</button>
-            </div>
+        
+        <div id="empty-wishlist" class="hidden text-center py-16">
+            <svg class="w-24 h-24 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+            </svg>
+            <h3 class="text-xl font-medium text-gray-900 mb-2">Your wishlist is empty</h3>
+            <p class="text-gray-500 mb-6">Save items you love for later.</p>
+            <a href="Category.html" class="inline-block px-6 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors">
+                Browse Products
+            </a>
         </div>
-
-        <!-- Wishlist Items Grid -->
-                <div id="wishlist-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-
-        </div>
-
-        <!-- Recommended Section -->
-        <div class="bg-gray-50 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-12">
-            <div class="max-w-7xl mx-auto">
-                <h2 class="text-xl font-bold text-gray-900 mb-6">Recommended for You</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                        <div class="aspect-square bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center">
-                            <svg class="w-24 h-24 text-indigo-600" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                            </svg>
-                        </div>
-                        <div class="p-4">
-                            <div class="text-xs text-gray-500 mb-1">Demon Slayer</div>
-                            <h3 class="text-sm font-medium text-gray-900 mb-1">Zenitsu Agatsuma 1/8</h3>
-                            <span class="text-sm font-bold text-gray-900">$155.00</span>
-                        </div>
-                    </div>
-                    <div class="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                        <div class="aspect-square bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center">
-                            <svg class="w-24 h-24 text-indigo-600" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                            </svg>
-                        </div>
-                        <div class="p-4">
-                            <div class="text-xs text-gray-500 mb-1">Jujutsu Kaisen</div>
-                            <h3 class="text-sm font-medium text-gray-900 mb-1">Yuta Okkotsu: ARTFX J</h3>
-                            <span class="text-sm font-bold text-gray-900">$168.00</span>
-                        </div>
-                    </div>
-                    <div class="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                        <div class="aspect-square bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center">
-                            <svg class="w-24 h-24 text-indigo-600" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                            </svg>
-                        </div>
-                        <div class="p-4">
-                            <div class="text-xs text-gray-500 mb-1">One Piece</div>
-                            <h3 class="text-sm font-medium text-gray-900 mb-1">Luffy Gear 4 Snakeman</h3>
-                            <span class="text-sm font-bold text-gray-900">$210.00</span>
-                        </div>
-                    </div>
-                    <div class="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                        <div class="aspect-square bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center">
-                            <svg class="w-24 h-24 text-indigo-600" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                            </svg>
-                        </div>
-                        <div class="p-4">
-                            <div class="text-xs text-gray-500 mb-1">Demon Slayer</div>
-                            <h3 class="text-sm font-medium text-gray-900 mb-1">Nezuko Kamado Pop Up</h3>
-                            <span class="text-sm font-bold text-gray-900">$39.99</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Newsletter -->
-    <div class="bg-white border-t border-gray-200 py-16">
-        <div class="max-w-2xl mx-auto text-center px-4">
-            <h2 class="text-2xl font-bold text-gray-900 mb-2">Follow the latest trends</h2>
-            <p class="text-gray-500 mb-6">With our daily newsletter</p>
-            <div class="flex gap-3 justify-center max-w-md mx-auto">
-                <input type="email" placeholder="you@example.com" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                <button class="px-6 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors">
-                    Submit
-                </button>
-            </div>
-        </div>
-    </div>
+    </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-gray-400 py-12">
+    <footer class="bg-gray-900 text-gray-400 py-12 mt-auto">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-                <div>
-                    <div class="text-white text-xl font-bold mb-4">OTAKU SHOP</div>
-                    <p class="text-sm mb-6">Your premier destination for high-quality anime figures and collectibles. Worldwide shipping available.</p>
-                </div>
-                <div>
-                    <h4 class="text-white text-sm font-semibold mb-4">Customer Service</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#" class="hover:text-white transition-colors">Shipping Information</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Returns & Refunds</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Order Tracking</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">FAQ</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-white text-sm font-semibold mb-4">About Us</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#" class="hover:text-white transition-colors">Our Story</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Authenticity Guarantee</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Careers</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-white text-sm font-semibold mb-4">Connect</h4>
-                    <div class="flex gap-4 mb-6">
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
-                        </a>
-                    </div>
-                    <div class="text-xs text-gray-500">Secure Payments:</div>
-                    <div class="flex gap-2 mt-2">
-                        <div class="w-10 h-6 bg-gray-700 rounded flex items-center justify-center text-xs text-white font-bold">VISA</div>
-                        <div class="w-10 h-6 bg-gray-700 rounded flex items-center justify-center text-xs text-white font-bold">MC</div>
-                        <div class="w-10 h-6 bg-gray-700 rounded flex items-center justify-center text-xs text-white font-bold">AMEX</div>
-                    </div>
-                </div>
-            </div>
-            <div class="border-t border-gray-800 pt-6 flex flex-col md:flex-row items-center justify-between">
-                <p class="text-xs text-gray-500 mb-4 md:mb-0">© 2025 Otaku Shop. All rights reserved.</p>
-                <div class="flex gap-6 text-xs">
-                    <a href="#" class="text-gray-500 hover:text-white transition-colors">Privacy Policy</a>
-                    <a href="#" class="text-gray-500 hover:text-white transition-colors">Terms of Service</a>
-                </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-sm">
+                <p>© 2024 AniStore. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // Product data (matching Category.html products)
+        // Product data
         const products = [
-            {
-                id: 0,
-                series: "Jujutsu Kaisen",
-                name: "Satoru Gojo: Cursed Technique Reversal \"Red\" 1/7",
-                price: 245.00,
-                badge: "PRE-ORDER",
-                badgeColor: "bg-rose-500"
-            },
-            {
-                id: 1,
-                series: "Chainsaw Man",
-                name: "Makima 1/8 Scale Figure by Kotobukiya",
-                price: 189.99,
-                badge: "IN STOCK",
-                badgeColor: "bg-blue-500"
-            },
-            {
-                id: 2,
-                series: "Naruto Shippuden",
-                name: "Nendoroid Naruto Uzumaki (Re-run)",
-                price: 54.00,
-                badge: "IN STOCK",
-                badgeColor: "bg-blue-500"
-            },
-            {
-                id: 3,
-                series: "Chainsaw Man",
-                name: "Power 1/7 Scale Figure by Good Smile Company",
-                price: 215.00,
-                badge: "NEW",
-                badgeColor: "bg-purple-500"
-            },
-            {
-                id: 4,
-                series: "Jujutsu Kaisen",
-                name: "Megumi Fushiguro: ARTFX J 1/8",
-                price: 145.00,
-                badge: "IN STOCK",
-                badgeColor: "bg-green-500"
-            },
-            {
-                id: 5,
-                series: "Chainsaw Man",
-                name: "Nendoroid Denji",
-                price: 59.99,
-                badge: "POPULAR",
-                badgeColor: "bg-orange-500"
-            }
+            { id: 0, name: "Jujutsu Kaisen: Gojo Satoru Technique \"Red\" 1/7", price: 245.00, image: "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=400&h=400&fit=crop" },
+            { id: 1, name: "Chainsaw Man: Makima 1/8 Scale Figure by Kotobukiya", price: 189.99, image: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=400&h=400&fit=crop" },
+            { id: 2, name: "Naruto Shippuden: Naruto Uzumaki (Re-run)", price: 54.00, image: "https://images.unsplash.com/photo-1536068020134-d8263b140a88?w=400&h=400&fit=crop" },
+            { id: 3, name: "Power 1/7 Scale Figure by Good Smile Company", price: 215.00, image: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=400&h=400&fit=crop" },
+            { id: 4, name: "Megumi Fushiguro: ARTFX J 1/8", price: 145.00, image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&h=400&fit=crop" },
+            { id: 5, name: "Nendoroid Denji", price: 59.99, image: "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?w=400&h=400&fit=crop" }
         ];
 
-        // Load cart from localStorage
+        // Load wishlist and cart from localStorage
+        let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-        // Function to update cart count in header
+        // Helper: format currency
+        function formatCurrency(amount) {
+            return '$' + amount.toFixed(2);
+        }
+
+        // Function to update navbar
+        function updateNavbar() {
+            const navRight = document.getElementById('nav-right');
+            const token = localStorage.getItem('token');
+            const user = JSON.parse(localStorage.getItem('user'));
+
+            if (token && user) {
+                navRight.innerHTML = `
+                    <a href="carte.html" class="relative p-2 text-gray-600 hover:text-gray-900 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                        <span id="cart-count" class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center hidden">0</span>
+                    </a>
+                    <span class="text-gray-600 text-sm">Hi, ${user.fullName}</span>
+                    <button id="logout-btn" class="px-4 py-2 text-sm font-medium bg-gray-100 text-gray-900 rounded-lg hover:bg-gray-200 transition-colors">Logout</button>
+                `;
+                document.getElementById('logout-btn').addEventListener('click', () => {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    window.location.reload();
+                });
+            } else {
+                navRight.innerHTML = `
+                    <a href="carte.html" class="relative p-2 text-gray-600 hover:text-gray-900 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                        <span id="cart-count" class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center hidden">0</span>
+                    </a>
+                    <a href="index.html" class="text-sm text-gray-600 hover:text-gray-900">Sign in</a>
+                    <a href="index.html" class="px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800 transition-colors">Register</a>
+                `;
+            }
+            
+            updateCartCount();
+        }
+
+        // Function to update cart count
         function updateCartCount() {
             const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
             const cartCountEl = document.getElementById('cart-count');
@@ -275,109 +133,78 @@
             }
         }
 
-        // Load wishlist from localStorage
-        let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-
         // Function to render wishlist
         function renderWishlist() {
-            const wishlistContainer = document.getElementById('wishlist-container');
+            const container = document.getElementById('wishlist-container');
+            const emptyDiv = document.getElementById('empty-wishlist');
+            
             if (wishlist.length === 0) {
-                wishlistContainer.innerHTML = `
-                    <div class="text-center py-16">
-                        <div class="text-gray-400 text-6xl mb-4">❤️</div>
-                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Your wishlist is empty</h3>
-                        <p class="text-gray-500">Save items you love to your wishlist!</p>
-                        <a href="Category.html" class="inline-block mt-6 px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition">Browse Products</a>
-                    </div>
-                `;
+                container.innerHTML = '';
+                emptyDiv.classList.remove('hidden');
             } else {
-                wishlistContainer.innerHTML = wishlist.map(id => {
-                    const product = products[id];
-                    if (!product) return '';
-                    return `
+                emptyDiv.classList.add('hidden');
+                let html = '';
+                wishlist.forEach(id => {
+                    const product = products.find(p => p.id === id);
+                    if (!product) return;
+                    html += `
                         <div class="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow duration-300">
                             <div class="relative overflow-hidden">
-                                <span class="absolute top-3 left-3 px-2 py-1 text-xs font-semibold ${product.badgeColor} text-white rounded">${product.badge}</span>
-                                <button class="heart-btn absolute top-3 right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm hover:shadow-md transition-all active" data-id="${id}">
-                                    <svg class="heart-icon w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                <button class="heart-btn active absolute top-3 right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm hover:shadow-md transition-all" onclick="toggleWishlist(${product.id})">
+                                    <svg class="heart-icon w-4 h-4 text-red-500" fill="#ef4444" stroke="none" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
                                     </svg>
                                 </button>
-                                <div class="aspect-square bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center">
-                                    <svg class="w-32 h-32 text-indigo-600" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                                    </svg>
-                                </div>
+                                <img src="${product.image}" alt="${product.name}" class="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300">
                             </div>
                             <div class="p-5">
-                                <div class="text-xs text-gray-500 mb-1">${product.series}</div>
                                 <h3 class="text-sm font-semibold text-gray-900 mb-2">${product.name}</h3>
-                                <div class="flex items-center justify-between mb-4">
-                                    <span class="text-lg font-bold text-gray-900">$${product.price.toFixed(2)}</span>
-                                    <span class="text-xs text-emerald-600 font-medium flex items-center gap-1">
-                                        <span class="w-2 h-2 bg-emerald-500 rounded-full"></span> Available
-                                    </span>
+                                <div class="flex items-baseline gap-2 mb-4">
+                                    <span class="text-lg font-bold text-gray-900">${formatCurrency(product.price)}</span>
                                 </div>
-                                <button class="add-to-cart-btn w-full py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center gap-2" data-id="${id}">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                                <button class="add-to-cart-btn w-full py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center gap-2" onclick="addToCart(${product.id}, this)">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
                                     Add to Cart
                                 </button>
                             </div>
                         </div>
                     `;
-                }).join('');
-                
-                // Reattach event listeners to heart buttons
-                document.querySelectorAll('.heart-btn').forEach(btn => {
-                    btn.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        const id = parseInt(this.getAttribute('data-id'));
-                        // Remove from wishlist
-                        wishlist = wishlist.filter(item => item !== id);
-                        localStorage.setItem('wishlist', JSON.stringify(wishlist));
-                        // Re-render
-                        renderWishlist();
-                    });
                 });
-
-                // Reattach event listeners to add to cart buttons
-                document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        const id = parseInt(btn.getAttribute('data-id'));
-                        // Check if product is already in cart
-                        const existingItem = cart.find(item => item.id === id);
-                        if (existingItem) {
-                            // Increase quantity
-                            existingItem.quantity += 1;
-                        } else {
-                            // Add new item
-                            cart.push({ id: id, quantity: 1 });
-                        }
-                        // Save to localStorage
-                        localStorage.setItem('cart', JSON.stringify(cart));
-                        // Update cart count
-                        updateCartCount();
-                        // Show a quick feedback (optional)
-                        btn.textContent = 'Added!';
-                        setTimeout(() => {
-                            btn.innerHTML = `
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-                                Add to Cart
-                            `;
-                        }, 1000);
-                    });
-                });
-                
-                // Update wishlist count
-                document.getElementById('wishlist-count').textContent = `You have ${wishlist.length} items saved in your wishlist.`;
+                container.innerHTML = html;
             }
         }
 
-        // Initial render
+        // Function to toggle wishlist
+        function toggleWishlist(id) {
+            if (wishlist.includes(id)) {
+                wishlist = wishlist.filter(item => item !== id);
+            } else {
+                wishlist.push(id);
+            }
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            renderWishlist();
+        }
+
+        // Function to add to cart
+        function addToCart(id, btn) {
+            const existingItem = cart.find(item => item.id === id);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ id: id, quantity: 1 });
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            const originalHTML = btn.innerHTML;
+            btn.textContent = 'Added!';
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+            }, 1000);
+        }
+
+        // Initialize
+        updateNavbar();
         renderWishlist();
-        // Initial cart count update
-        updateCartCount();
     </script>
 </body>
 </html>

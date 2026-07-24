@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AniStore</title>
+    <title>AniStore - Login / Register</title>
     <style>
         * {
             margin: 0;
@@ -30,6 +30,7 @@
             font-weight: bold;
             font-size: 1.2rem;
             color: #222;
+            text-decoration: none;
         }
 
         .nav-links {
@@ -283,36 +284,6 @@
             color: #222;
         }
 
-        .social-links {
-            display: flex;
-            gap: 0.8rem;
-            margin-top: 1rem;
-        }
-
-        .footer-newsletter {
-            display: flex;
-            gap: 0.3rem;
-            margin-top: 1rem;
-        }
-
-        .footer-newsletter input {
-            padding: 0.5rem;
-            border: 1px solid #eee;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            flex: 1;
-        }
-
-        .footer-newsletter button {
-            padding: 0.5rem 0.8rem;
-            border: none;
-            border-radius: 6px;
-            background-color: #222;
-            color: white;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
-
         .footer-bottom {
             max-width: 1200px;
             margin: 2rem auto 0;
@@ -328,22 +299,18 @@
     <!-- Navbar -->
     <nav class="navbar">
         <div class="logo">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M3 12h18M3 6h18M3 18h18" stroke="#222" stroke-width="2" stroke-linecap="round"/>
-            </svg>
+            <a href="Category.html" class="logo">
+                <span class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                    𝔸
+                </span>
+            </a>
         </div>
         <div class="nav-links">
-            <a href="#">Products</a>
-            <a href="#">Solutions</a>
-            <a href="#">Community</a>
-            <a href="#">Resources</a>
-            <a href="#">Pricing</a>
-            <a href="#">Contact</a>
-            <a href="#">Link</a>
+            <a href="Category.html">Products</a>
+            <a href="wishlist.html">Wishlist</a>
         </div>
         <div class="nav-buttons">
-            <a href="#" class="btn btn-outline">Sign In</a>
-            <a href="#" class="btn btn-primary">Register</a>
+            <a href="Category.html" class="btn btn-primary">Browse Products</a>
         </div>
     </nav>
 
@@ -354,14 +321,14 @@
             <div class="auth-section">
                 <h2>WELCOME BACK</h2>
                 <p>Sign in to access your collection and orders.</p>
-                <form class="auth-form">
+                <form class="auth-form" id="login-form">
                     <div class="form-group">
                         <label>EMAIL ADDRESS</label>
-                        <input type="email" placeholder="name@example.com">
+                        <input type="email" placeholder="name@example.com" id="login-email" required>
                     </div>
                     <div class="form-group">
                         <label>PASSWORD</label>
-                        <input type="password" placeholder="••••••••">
+                        <input type="password" placeholder="••••••••" id="login-password" required>
                         <span class="forgot-password"><a href="#">Forgot Password?</a></span>
                     </div>
                     <button type="submit" class="btn btn-primary" style="padding: 0.8rem;">Login →</button>
@@ -384,22 +351,22 @@
             <div class="auth-section">
                 <h2>CREATE ACCOUNT</h2>
                 <p>Join the community and get early access.</p>
-                <form class="auth-form">
+                <form class="auth-form" id="register-form">
                     <div class="form-group">
                         <label>FULL NAME</label>
-                        <input type="text" placeholder="John Doe">
+                        <input type="text" placeholder="John Doe" id="register-name" required>
                     </div>
                     <div class="form-group">
                         <label>EMAIL ADDRESS</label>
-                        <input type="email" placeholder="name@example.com">
+                        <input type="email" placeholder="name@example.com" id="register-email" required>
                     </div>
                     <div class="form-group">
                         <label>PASSWORD</label>
-                        <input type="password" placeholder="••••••••">
+                        <input type="password" placeholder="••••••••" id="register-password" required>
                     </div>
                     <div class="form-group">
                         <label>CONFIRM PASSWORD</label>
-                        <input type="password" placeholder="••••••••">
+                        <input type="password" placeholder="••••••••" id="register-confirm" required>
                     </div>
                     <button type="submit" class="btn btn-primary" style="padding: 0.8rem;">Register →</button>
                     <p class="terms">By clicking register, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>
@@ -422,29 +389,17 @@
     <footer>
         <div class="footer-content">
             <div class="footer-section">
-                <h4>ANIMARKET</h4>
+                <h4>ANISTORE</h4>
                 <p>The ultimate destination for authentic anime figures, Nendoroids, and collectibles.</p>
-                <div class="social-links">
-                    <a href="#">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="#666" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
-                        </svg>
-                    </a>
-                    <a href="#">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="#666" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                        </svg>
-                    </a>
-                </div>
             </div>
 
             <div class="footer-section">
                 <h4>SHOP</h4>
                 <ul class="footer-links">
-                    <li><a href="#">Scale Figures</a></li>
-                    <li><a href="#">Nendoroids</a></li>
-                    <li><a href="#">Limited Editions</a></li>
-                    <li><a href="#">Pre-orders</a></li>
+                    <li><a href="Category.html">Scale Figures</a></li>
+                    <li><a href="Category.html">Nendoroids</a></li>
+                    <li><a href="Category.html">Limited Editions</a></li>
+                    <li><a href="Category.html">Pre-orders</a></li>
                 </ul>
             </div>
 
@@ -461,10 +416,6 @@
             <div class="footer-section">
                 <h4>NEWSLETTER</h4>
                 <p>Get updates on new arrivals and exclusive drops.</p>
-                <div class="footer-newsletter">
-                    <input type="email" placeholder="Your email">
-                    <button type="button">→</button>
-                </div>
             </div>
         </div>
 
@@ -472,5 +423,90 @@
             <p>© 2024 AniMarket. All rights reserved.</p>
         </div>
     </footer>
+
+    <script>
+        // Check if user is already logged in
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            if (token && user) {
+                // Redirect to products if already logged in
+                window.location.href = 'Category.html';
+            }
+        }
+
+        // Handle login form
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Save token and user info
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    alert('Login successful! Welcome ' + data.user.fullName);
+                    window.location.href = 'Category.html';
+                } else {
+                    alert(data.error || 'Login failed');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+
+        // Handle register form
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fullName = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm').value;
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ fullName, email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    alert('Registration successful! Welcome ' + data.user.fullName);
+                    window.location.href = 'Category.html';
+                } else {
+                    alert(data.error || 'Registration failed');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+
+        // Check auth on page load
+        checkAuth();
+    </script>
 </body>
 </html>
