@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AniStore - Shopping Cart</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://js.stripe.com/v3/"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -95,7 +96,7 @@
                             <span id="total">$0.00</span>
                         </div>
                     </div>
-                    <button class="w-full mt-6 py-3 bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center gap-2">
+                    <button id="checkout-button" class="w-full mt-6 py-3 bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center gap-2">
                         Proceed to Checkout
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </button>
@@ -183,8 +184,9 @@
     </footer>
 
     <script>
-        // Product data (matching Category.html and wishlist.html)
-        const products = [
+        document.addEventListener('DOMContentLoaded', function() {
+            // Product data (matching Category.html and wishlist.html)
+            const products = [
             {
                 id: 0,
                 series: "Jujutsu Kaisen",
@@ -234,6 +236,9 @@
                 badgeColor: "bg-orange-500"
             }
         ];
+
+        // Initialize Stripe
+        const stripe = Stripe('pk_test_51TweB597ActSHL8fQGjZJxEatSyAykmpT0EjLXsFWAnPKDEyMzOo1zN7CFfyrXcmOczcR5kHOuYM32HZZGWHT2xz00On215czB');
 
         // Load cart from localStorage
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -351,9 +356,60 @@
             calculateSummary();
         }
 
-        // Initial render
-        renderCart();
-        updateCartCount();
+        // Handle checkout
+        document.getElementById('checkout-button').addEventListener('click', async () => {
+            console.log('Checkout button clicked');
+            console.log('Current cart:', cart);
+            if (cart.length === 0) {
+                console.log('Cart is empty');
+                return;
+            }
+
+            const items = cart.map(item => {
+                const product = products[item.id];
+                return {
+                    name: product.name,
+                    price: product.price,
+                    quantity: item.quantity
+                };
+            });
+
+            console.log('Sending items to server:', items);
+
+            try {
+                const response = await fetch('/create-checkout-session', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ items }),
+                });
+
+                console.log('Response status:', response.status);
+                const session = await response.json();
+                console.log('Session:', session);
+
+                if (session.error) {
+                    alert(session.error);
+                    return;
+                }
+
+                const result = await stripe.redirectToCheckout({ sessionId: session.sessionId });
+                console.log('Redirect result:', result);
+
+                if (result.error) {
+                    alert(result.error.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred during checkout. Please try again.');
+            }
+        });
+
+            // Initial render
+            renderCart();
+            updateCartCount();
+        });
     </script>
 </body>
 </html>
