@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AniStore - Anime Figures</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+        .price-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #ef4444;
+            cursor: pointer;
+        }
+        .price-slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #ef4444;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-2">
+                    <div class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                        𝔸
+                    </div>
+                </div>
+                <nav class="hidden md:flex items-center gap-6 text-sm">
+                    <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">Products</a>
+                    <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">Solutions</a>
+                    <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">Community</a>
+                    <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">Resources</a>
+                    <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">Pricing</a>
+                    <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">Contact</a>
+                    <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">Link</a>
+                </nav>
+                <div class="flex items-center gap-4">
+                    <button class="text-sm text-gray-600 hover:text-gray-900">Sign in</button>
+                    <button class="px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800 transition-colors">Register</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex items-center gap-2 text-xs text-gray-500">
+                <a href="#" class="hover:text-gray-700">Home</a>
+                <span>/</span>
+                <a href="#" class="hover:text-gray-700">Categories</a>
+                <span>/</span>
+                <span class="text-gray-900">Anime</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Banner -->
+    <div class="relative overflow-hidden bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600">
+        <img src="https://images.unsplash.com/photo-1635805737707-575885ab0820?w=1600&h=400&fit=crop" alt="Anime Figures" class="w-full h-64 object-cover opacity-20">
+        <div class="absolute inset-0 flex items-center px-4 sm:px-6 lg:px-8">
+            <div class="max-w-2xl">
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Anime Figures</h1>
+                <p class="text-white/90 text-lg">Explore our massive collection of premium anime figures that'll make your wallet cry, but your inner otaku jump for joy!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex gap-8">
+            <!-- Sidebar Filters -->
+            <aside class="w-64 flex-shrink-0 hidden lg:block">
+                <div class="space-y-8">
+                    <!-- Series Filter -->
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Series</h3>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="w-4 h-4 text-red-500 rounded border-gray-300 focus:ring-red-500">
+                                <span class="text-sm text-gray-600">Jujutsu Kaisen</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="w-4 h-4 text-red-500 rounded border-gray-300 focus:ring-red-500">
+                                <span class="text-sm text-gray-600">Chainsaw Man</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="w-4 h-4 text-red-500 rounded border-gray-300 focus:ring-red-500">
+                                <span class="text-sm text-gray-600">Naruto Shippuden</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="w-4 h-4 text-red-500 rounded border-gray-300 focus:ring-red-500">
+                                <span class="text-sm text-gray-600">One Piece</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="w-4 h-4 text-red-500 rounded border-gray-300 focus:ring-red-500">
+                                <span class="text-sm text-gray-600">Demon Slayer</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Brand Filter -->
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Brand</h3>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="w-4 h-4 text-red-500 rounded border-gray-300 focus:ring-red-500">
+                                <span class="text-sm text-gray-600">Good Smile Company</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="w-4 h-4 text-red-500 rounded border-gray-300 focus:ring-red-500">
+                                <span class="text-sm text-gray-600">Figma</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="w-4 h-4 text-red-500 rounded border-gray-300 focus:ring-red-500">
+                                <span class="text-sm text-gray-600">Kotobukiya</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Scale Filter -->
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Scale</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <button class="px-3 py-1.5 text-xs font-medium bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors">1/7 Scale</button>
+                            <button class="px-3 py-1.5 text-xs font-medium bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors">1/8 Scale</button>
+                            <button class="px-3 py-1.5 text-xs font-medium bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors">Pop Up Parade</button>
+                            <button class="px-3 py-1.5 text-xs font-medium bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors">Nendoroid</button>
+                        </div>
+                    </div>
+
+                    <!-- Price Filter -->
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Price Range</h3>
+                        <input type="range" min="0" max="500" value="80" class="w-full price-slider">
+                        <div class="flex justify-between mt-2 text-sm text-gray-500">
+                            <span>$0</span>
+                            <span>$80</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Products Grid -->
+            <main class="flex-1">
+                <!-- Sort Bar -->
+                <div class="flex items-center justify-between mb-8">
+                    <div class="text-sm text-gray-500">
+                        Showing <span class="font-semibold text-gray-900">1</span> of <span class="font-semibold text-gray-900">258</span> products
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-sm text-gray-500">Sort by:</span>
+                        <select class="text-sm border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option>Newest Arrivals</option>
+                            <option>Price: Low to High</option>
+                            <option>Price: High to Low</option>
+                            <option>Best Sellers</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Products -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Product 1 -->
+                    <div class="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                        <div class="relative overflow-hidden">
+                            <span class="absolute top-3 left-3 px-2 py-1 text-xs font-semibold bg-rose-500 text-white rounded">PRE-ORDER</span>
+                            <img src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=400&h=400&fit=crop" alt="Jujutsu Kaisen Figure" class="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <div class="p-5">
+                            <div class="text-xs text-gray-500 mb-1">Good Smile Company</div>
+                            <h3 class="text-sm font-semibold text-gray-900 mb-2">Jujutsu Kaisen: Gojo Satoru Technique "Red" 1/7</h3>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-lg font-bold text-gray-900">$245.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 2 -->
+                    <div class="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                        <div class="relative overflow-hidden">
+                            <span class="absolute top-3 left-3 px-2 py-1 text-xs font-semibold bg-blue-500 text-white rounded">IN STOCK</span>
+                            <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=400&h=400&fit=crop" alt="Chainsaw Man Figure" class="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <div class="p-5">
+                            <div class="text-xs text-gray-500 mb-1">Good Smile Company</div>
+                            <h3 class="text-sm font-semibold text-gray-900 mb-2">Chainsaw Man: Makima 1/8 Scale Figure by Kotobukiya</h3>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-lg font-bold text-gray-900">$189.99</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                        <div class="relative overflow-hidden">
+                            <span class="absolute top-3 left-3 px-2 py-1 text-xs font-semibold bg-yellow-500 text-black rounded">BESTSELLER</span>
+                            <img src="https://images.unsplash.com/photo-1536068020134-d8263b140a88?w=400&h=400&fit=crop" alt="Naruto Figure" class="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <div class="p-5">
+                            <div class="text-xs text-gray-500 mb-1">Nendoroid</div>
+                            <h3 class="text-sm font-semibold text-gray-900 mb-2">Naruto Shippuden: Naruto Uzumaki (Re-run)</h3>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-lg font-bold text-gray-900">$54.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 4 -->
+                    <div class="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                        <div class="relative overflow-hidden">
+                            <span class="absolute top-3 left-3 px-2 py-1 text-xs font-semibold bg-purple-500 text-white rounded">NEW</span>
+                            <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=400&h=400&fit=crop" alt="Chainsaw Man Figure" class="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <div class="p-5">
+                            <div class="text-xs text-gray-500 mb-1">Good Smile Company</div>
+                            <h3 class="text-sm font-semibold text-gray-900 mb-2">Power 1/7 Scale Figure by Good Smile Company</h3>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-lg font-bold text-gray-900">$215.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 5 -->
+                    <div class="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                        <div class="relative overflow-hidden">
+                            <span class="absolute top-3 left-3 px-2 py-1 text-xs font-semibold bg-green-500 text-white rounded">IN STOCK</span>
+                            <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&h=400&fit=crop" alt="Jujutsu Kaisen Figure" class="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <div class="p-5">
+                            <div class="text-xs text-gray-500 mb-1">Nendoroid</div>
+                            <h3 class="text-sm font-semibold text-gray-900 mb-2">Megumi Fushiguro: ARTFX J 1/8</h3>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-lg font-bold text-gray-900">$145.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 6 -->
+                    <div class="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                        <div class="relative overflow-hidden">
+                            <span class="absolute top-3 left-3 px-2 py-1 text-xs font-semibold bg-orange-500 text-white rounded">POPULAR</span>
+                            <img src="https://images.unsplash.com/photo-1618336753974-aae8e04506aa?w=400&h=400&fit=crop" alt="Denji Figure" class="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <div class="p-5">
+                            <div class="text-xs text-gray-500 mb-1">Nendoroid</div>
+                            <h3 class="text-sm font-semibold text-gray-900 mb-2">Nendoroid Denji</h3>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-lg font-bold text-gray-900">$59.99</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="flex items-center justify-center gap-2 mt-12">
+                    <button class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-300 text-gray-500 hover:bg-gray-50 transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </button>
+                    <button class="w-9 h-9 flex items-center justify-center rounded-lg bg-gray-900 text-white font-medium">1</button>
+                    <button class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors font-medium">2</button>
+                    <button class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors font-medium">3</button>
+                    <span class="w-9 h-9 flex items-center justify-center text-gray-500">...</span>
+                    <button class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors font-medium">8</button>
+                    <button class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-300 text-gray-500 hover:bg-gray-50 transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="bg-white border-t border-gray-200 py-16">
+        <div class="max-w-2xl mx-auto text-center px-4">
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">Follow the latest trends</h2>
+            <p class="text-gray-500 mb-6">With our daily newsletter</p>
+            <div class="flex gap-3 justify-center max-w-md mx-auto">
+                <input type="email" placeholder="you@example.com" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <button class="px-6 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors">
+                    Submit
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="text-white text-2xl font-bold mb-4">𝔸</div>
+                    <div class="flex gap-3">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white text-sm font-semibold uppercase tracking-wide mb-4">Use cases</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white transition-colors">UI design</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">UX design</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Wireframing</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Diagramming</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Brainstorming</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Online whiteboard</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Team collaboration</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white text-sm font-semibold uppercase tracking-wide mb-4">Explore</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white transition-colors">Design</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Prototyping</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Development features</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Design systems</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Collaboration features</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Design process</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">FigJam</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white text-sm font-semibold uppercase tracking-wide mb-4">Resources</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Best practices</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Colors</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Color wheel</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Support</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Developers</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Resource library</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
