@@ -333,17 +333,17 @@
             </svg>
         </div>
         <div class="nav-links">
-            <a href="#">Products</a>
-            <a href="#">Solutions</a>
-            <a href="#">Community</a>
-            <a href="#">Resources</a>
-            <a href="#">Pricing</a>
+            <a href="index.html">Home</a>
+            <a href="Category.html">Category</a>
+            <a href="wishlist.html">Wishlist</a>
+            <a href="carte.html">Cart</a>
+            <a href="success.html">Success</a>
             <a href="#">Contact</a>
             <a href="#">Link</a>
         </div>
         <div class="nav-buttons">
-            <a href="#" class="btn btn-outline">Sign In</a>
-            <a href="#" class="btn btn-primary">Register</a>
+            <a href="index.html" class="btn btn-outline">Sign In</a>
+            <a href="index.html" class="btn btn-primary">Register</a>
         </div>
     </nav>
 
@@ -354,15 +354,15 @@
             <div class="auth-section">
                 <h2>WELCOME BACK</h2>
                 <p>Sign in to access your collection and orders.</p>
-                <form class="auth-form">
+                <form id="login-form" class="auth-form">
                     <div class="form-group">
-                        <label>EMAIL ADDRESS</label>
-                        <input type="email" placeholder="name@example.com">
+                        <label for="login-email">EMAIL ADDRESS</label>
+                        <input id="login-email" type="email" placeholder="name@example.com" required>
                     </div>
                     <div class="form-group">
-                        <label>PASSWORD</label>
-                        <input type="password" placeholder="••••••••">
-                        <span class="forgot-password"><a href="#">Forgot Password?</a></span>
+                        <label for="login-password">PASSWORD</label>
+                        <input id="login-password" type="password" placeholder="••••••••" required>
+                        <span class="forgot-password"><a href="#" id="forgot-password-link">Forgot Password?</a></span>
                     </div>
                     <button type="submit" class="btn btn-primary" style="padding: 0.8rem;">Login →</button>
                     <div class="divider">
@@ -384,22 +384,22 @@
             <div class="auth-section">
                 <h2>CREATE ACCOUNT</h2>
                 <p>Join the community and get early access.</p>
-                <form class="auth-form">
+                <form id="register-form" class="auth-form">
                     <div class="form-group">
-                        <label>FULL NAME</label>
-                        <input type="text" placeholder="John Doe">
+                        <label for="register-name">FULL NAME</label>
+                        <input id="register-name" type="text" placeholder="John Doe" required>
                     </div>
                     <div class="form-group">
-                        <label>EMAIL ADDRESS</label>
-                        <input type="email" placeholder="name@example.com">
+                        <label for="register-email">EMAIL ADDRESS</label>
+                        <input id="register-email" type="email" placeholder="name@example.com" required>
                     </div>
                     <div class="form-group">
-                        <label>PASSWORD</label>
-                        <input type="password" placeholder="••••••••">
+                        <label for="register-password">PASSWORD</label>
+                        <input id="register-password" type="password" placeholder="••••••••" required>
                     </div>
                     <div class="form-group">
-                        <label>CONFIRM PASSWORD</label>
-                        <input type="password" placeholder="••••••••">
+                        <label for="register-password-confirm">CONFIRM PASSWORD</label>
+                        <input id="register-password-confirm" type="password" placeholder="••••••••" required>
                     </div>
                     <button type="submit" class="btn btn-primary" style="padding: 0.8rem;">Register →</button>
                     <p class="terms">By clicking register, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>
@@ -472,5 +472,113 @@
             <p>© 2024 AniMarket. All rights reserved.</p>
         </div>
     </footer>
+    <script>
+        const storageKey = 'anistoreUsers';
+        const currentUserKey = 'anistoreCurrentUser';
+
+        const getUsers = () => {
+            const usersJson = localStorage.getItem(storageKey);
+            return usersJson ? JSON.parse(usersJson) : [];
+        };
+
+        const saveUsers = (users) => {
+            localStorage.setItem(storageKey, JSON.stringify(users));
+        };
+
+        const setCurrentUser = (email) => {
+            localStorage.setItem(currentUserKey, email);
+        };
+
+        const getCurrentUser = () => {
+            return localStorage.getItem(currentUserKey);
+        };
+
+        const showMessage = (message) => {
+            alert(message);
+        };
+
+        document.getElementById('register-form').addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const name = document.getElementById('register-name').value.trim();
+            const email = document.getElementById('register-email').value.trim().toLowerCase();
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-password-confirm').value;
+
+            if (!name || !email || !password || !confirmPassword) {
+                showMessage('กรุณากรอกข้อมูลให้ครบทั้งหมด');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showMessage('รหัสผ่านทั้งสองช่องไม่ตรงกัน');
+                return;
+            }
+
+            const users = getUsers();
+            if (users.some((user) => user.email === email)) {
+                showMessage('อีเมลนี้เคยลงทะเบียนแล้ว กรุณาเข้าสู่ระบบหรือใช้บัญชีอื่น');
+                return;
+            }
+
+            users.push({ name, email, password });
+            saveUsers(users);
+            showMessage('สมัครสมาชิกสำเร็จแล้ว! กรุณาเข้าสู่ระบบด้วยอีเมลและรหัสผ่านของคุณ');
+            document.getElementById('register-form').reset();
+        });
+
+        document.getElementById('login-form').addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const email = document.getElementById('login-email').value.trim().toLowerCase();
+            const password = document.getElementById('login-password').value;
+
+            const users = getUsers();
+            const foundUser = users.find((user) => user.email === email);
+
+            if (!foundUser) {
+                showMessage('ไม่พบผู้ใช้ กรุณาสมัครสมาชิกก่อน');
+                return;
+            }
+
+            if (foundUser.password !== password) {
+                showMessage('รหัสผ่านไม่ถูกต้อง โปรดลองอีกครั้ง');
+                return;
+            }
+
+            setCurrentUser(email);
+            showMessage(`ยินดีด้วย ${foundUser.name}! เข้าสู่ระบบสำเร็จแล้ว`);
+            window.location.reload();
+        });
+
+        document.getElementById('forgot-password-link').addEventListener('click', (event) => {
+            event.preventDefault();
+            showMessage('ฟีเจอร์กู้คืนรหัสผ่านยังไม่พร้อมใช้งานในตอนนี้');
+        });
+
+        const updateNavForUser = () => {
+            const currentUserEmail = getCurrentUser();
+            if (!currentUserEmail) return;
+
+            const users = getUsers();
+            const user = users.find((item) => item.email === currentUserEmail);
+            if (!user) return;
+
+            const navButtons = document.querySelector('.nav-buttons');
+            if (!navButtons) return;
+
+            navButtons.innerHTML = `
+                <span style="color:#222; font-weight:600; padding:0.5rem 1rem;">Logged in as ${user.name}</span>
+                <button id="logout-button" class="btn btn-outline">Logout</button>
+            `;
+
+            document.getElementById('logout-button').addEventListener('click', () => {
+                localStorage.removeItem(currentUserKey);
+                window.location.reload();
+            });
+        };
+
+        updateNavForUser();
+    </script>
 </body>
 </html>

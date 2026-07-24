@@ -33,13 +33,13 @@
                     <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">Contact</a>
                     <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">Link</a>
                 </nav>
-                <div class="flex items-center gap-4">
+                <div id="nav-auth" class="flex items-center gap-4">
                     <a href="carte.html" class="relative p-2 text-gray-600 hover:text-gray-900 transition-colors">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
                         <span id="cart-count" class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center hidden">0</span>
                     </a>
-                    <button class="text-sm text-gray-600 hover:text-gray-900">Sign in</button>
-                    <button class="px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800 transition-colors">Register</button>
+                    <a href="index.html" class="text-sm text-gray-600 hover:text-gray-900 transition-colors">Sign in</a>
+                    <a href="index.html" class="px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800 transition-colors">Register</a>
                 </div>
             </div>
         </div>
@@ -409,7 +409,30 @@
             // Initial render
             renderCart();
             updateCartCount();
+            updateAuthNav();
         });
+
+        function updateAuthNav() {
+            const currentUserEmail = localStorage.getItem('anistoreCurrentUser');
+            const navAuth = document.getElementById('nav-auth');
+            if (!navAuth) return;
+            if (!currentUserEmail) return;
+
+            const usersJson = localStorage.getItem('anistoreUsers');
+            const users = usersJson ? JSON.parse(usersJson) : [];
+            const user = users.find((item) => item.email === currentUserEmail);
+            if (!user) return;
+
+            navAuth.innerHTML = `
+                <span class="text-sm text-gray-700">Logged in as ${user.name}</span>
+                <button id="logout-button" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors">Logout</button>
+            `;
+
+            document.getElementById('logout-button').addEventListener('click', () => {
+                localStorage.removeItem('anistoreCurrentUser');
+                window.location.href = 'index.html';
+            });
+        }
     </script>
 </body>
 </html>
