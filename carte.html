@@ -3,18 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AniStore - My Wishlist</title>
+    <title>AniStore - Shopping Cart</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Poppins', sans-serif; }
-        .heart-btn:hover .heart-icon { fill: #ef4444; }
-        .heart-btn.active .heart-icon { fill: #ef4444; }
     </style>
 </head>
-<body class="bg-white">
+<body class="bg-gray-50">
     <!-- Header -->
     <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -51,82 +49,59 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div class="flex items-center gap-2 text-xs text-gray-500">
                 <a href="#" class="hover:text-gray-700">Home</a>
-                <span>›</span>
-                <span class="text-gray-900">My Wishlist</span>
+                <span>/</span>
+                <span class="text-gray-900">Shopping Cart</span>
             </div>
         </div>
     </div>
 
-    <!-- Wishlist Content -->
+    <!-- Cart Content -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div class="flex items-center justify-between mb-8">
-            <div>
-                <h1 class="text-3xl font-bold text-gray-900 mb-2">My Wishlist</h1>
-                <p id="wishlist-count" class="text-gray-500 text-sm">You have 3 items saved in your wishlist.</p>
+        <h1 class="text-3xl font-bold text-gray-900 mb-8">Shopping Cart</h1>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Cart Items -->
+            <div class="lg:col-span-2">
+                <div id="cart-items" class="space-y-4">
+                    <!-- Cart items will be rendered here -->
+                </div>
+                <div class="mt-6">
+                    <a href="Category.html" class="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                        Continue Shopping
+                    </a>
+                </div>
             </div>
-            <div class="flex items-center gap-3">
-                <button class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">Share Wishlist</button>
-                <button class="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors">Add All to Cart</button>
-            </div>
-        </div>
 
-        <!-- Wishlist Items Grid -->
-                <div id="wishlist-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-
-        </div>
-
-        <!-- Recommended Section -->
-        <div class="bg-gray-50 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-12">
-            <div class="max-w-7xl mx-auto">
-                <h2 class="text-xl font-bold text-gray-900 mb-6">Recommended for You</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                        <div class="aspect-square bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center">
-                            <svg class="w-24 h-24 text-indigo-600" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                            </svg>
+            <!-- Order Summary -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-xl border border-gray-200 p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Order Summary</h2>
+                    <div class="space-y-3">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600">Subtotal</span>
+                            <span id="subtotal" class="font-medium">$0.00</span>
                         </div>
-                        <div class="p-4">
-                            <div class="text-xs text-gray-500 mb-1">Demon Slayer</div>
-                            <h3 class="text-sm font-medium text-gray-900 mb-1">Zenitsu Agatsuma 1/8</h3>
-                            <span class="text-sm font-bold text-gray-900">$155.00</span>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600">Shipping</span>
+                            <span class="font-medium">$0.00</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600">Tax</span>
+                            <span id="tax" class="font-medium">$0.00</span>
+                        </div>
+                        <div class="border-t border-gray-200 pt-3 flex justify-between text-lg font-bold text-gray-900">
+                            <span>Total</span>
+                            <span id="total">$0.00</span>
                         </div>
                     </div>
-                    <div class="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                        <div class="aspect-square bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center">
-                            <svg class="w-24 h-24 text-indigo-600" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                            </svg>
-                        </div>
-                        <div class="p-4">
-                            <div class="text-xs text-gray-500 mb-1">Jujutsu Kaisen</div>
-                            <h3 class="text-sm font-medium text-gray-900 mb-1">Yuta Okkotsu: ARTFX J</h3>
-                            <span class="text-sm font-bold text-gray-900">$168.00</span>
-                        </div>
-                    </div>
-                    <div class="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                        <div class="aspect-square bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center">
-                            <svg class="w-24 h-24 text-indigo-600" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                            </svg>
-                        </div>
-                        <div class="p-4">
-                            <div class="text-xs text-gray-500 mb-1">One Piece</div>
-                            <h3 class="text-sm font-medium text-gray-900 mb-1">Luffy Gear 4 Snakeman</h3>
-                            <span class="text-sm font-bold text-gray-900">$210.00</span>
-                        </div>
-                    </div>
-                    <div class="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                        <div class="aspect-square bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center">
-                            <svg class="w-24 h-24 text-indigo-600" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                            </svg>
-                        </div>
-                        <div class="p-4">
-                            <div class="text-xs text-gray-500 mb-1">Demon Slayer</div>
-                            <h3 class="text-sm font-medium text-gray-900 mb-1">Nezuko Kamado Pop Up</h3>
-                            <span class="text-sm font-bold text-gray-900">$39.99</span>
-                        </div>
+                    <button class="w-full mt-6 py-3 bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center gap-2">
+                        Proceed to Checkout
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                    <div class="mt-4 flex items-center gap-2 text-xs text-gray-500">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                        Secure checkout guaranteed
                     </div>
                 </div>
             </div>
@@ -208,7 +183,7 @@
     </footer>
 
     <script>
-        // Product data (matching Category.html products)
+        // Product data (matching Category.html and wishlist.html)
         const products = [
             {
                 id: 0,
@@ -275,108 +250,109 @@
             }
         }
 
-        // Load wishlist from localStorage
-        let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+        // Function to calculate order summary
+        function calculateSummary() {
+            const subtotal = cart.reduce((total, item) => {
+                const product = products[item.id];
+                return total + (product.price * item.quantity);
+            }, 0);
+            const tax = subtotal * 0.08; // 8% tax rate
+            const total = subtotal + tax;
 
-        // Function to render wishlist
-        function renderWishlist() {
-            const wishlistContainer = document.getElementById('wishlist-container');
-            if (wishlist.length === 0) {
-                wishlistContainer.innerHTML = `
-                    <div class="text-center py-16">
-                        <div class="text-gray-400 text-6xl mb-4">❤️</div>
-                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Your wishlist is empty</h3>
-                        <p class="text-gray-500">Save items you love to your wishlist!</p>
+            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+        }
+
+        // Function to render cart
+        function renderCart() {
+            const cartContainer = document.getElementById('cart-items');
+            if (cart.length === 0) {
+                cartContainer.innerHTML = `
+                    <div class="text-center py-16 bg-white rounded-xl border border-gray-200">
+                        <div class="text-gray-400 text-6xl mb-4">🛒</div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Your cart is empty</h3>
+                        <p class="text-gray-500">Add some items to get started!</p>
                         <a href="Category.html" class="inline-block mt-6 px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition">Browse Products</a>
                     </div>
                 `;
             } else {
-                wishlistContainer.innerHTML = wishlist.map(id => {
-                    const product = products[id];
+                cartContainer.innerHTML = cart.map((item, index) => {
+                    const product = products[item.id];
                     if (!product) return '';
                     return `
-                        <div class="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                            <div class="relative overflow-hidden">
-                                <span class="absolute top-3 left-3 px-2 py-1 text-xs font-semibold ${product.badgeColor} text-white rounded">${product.badge}</span>
-                                <button class="heart-btn absolute top-3 right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm hover:shadow-md transition-all active" data-id="${id}">
-                                    <svg class="heart-icon w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                                    </svg>
-                                </button>
-                                <div class="aspect-square bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center">
-                                    <svg class="w-32 h-32 text-indigo-600" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                                    </svg>
-                                </div>
+                        <div class="bg-white rounded-xl border border-gray-200 p-4 flex flex-col sm:flex-row gap-4">
+                            <div class="w-full sm:w-24 h-24 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <svg class="w-12 h-12 text-indigo-600" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                                </svg>
                             </div>
-                            <div class="p-5">
+                            <div class="flex-1">
                                 <div class="text-xs text-gray-500 mb-1">${product.series}</div>
                                 <h3 class="text-sm font-semibold text-gray-900 mb-2">${product.name}</h3>
-                                <div class="flex items-center justify-between mb-4">
-                                    <span class="text-lg font-bold text-gray-900">$${product.price.toFixed(2)}</span>
-                                    <span class="text-xs text-emerald-600 font-medium flex items-center gap-1">
-                                        <span class="w-2 h-2 bg-emerald-500 rounded-full"></span> Available
-                                    </span>
+                                <div class="text-lg font-bold text-gray-900">$${product.price.toFixed(2)}</div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="flex items-center border border-gray-300 rounded-lg">
+                                    <button class="decrease-qty px-3 py-1 text-gray-600 hover:bg-gray-100 transition-colors" data-index="${index}">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/></svg>
+                                    </button>
+                                    <span class="px-3 py-1 text-gray-900 font-medium">${item.quantity}</span>
+                                    <button class="increase-qty px-3 py-1 text-gray-600 hover:bg-gray-100 transition-colors" data-index="${index}">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                                    </button>
                                 </div>
-                                <button class="add-to-cart-btn w-full py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center gap-2" data-id="${id}">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-                                    Add to Cart
+                                <button class="remove-item p-2 text-gray-500 hover:text-red-500 transition-colors" data-index="${index}">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                                 </button>
                             </div>
                         </div>
                     `;
                 }).join('');
-                
-                // Reattach event listeners to heart buttons
-                document.querySelectorAll('.heart-btn').forEach(btn => {
-                    btn.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        const id = parseInt(this.getAttribute('data-id'));
-                        // Remove from wishlist
-                        wishlist = wishlist.filter(item => item !== id);
-                        localStorage.setItem('wishlist', JSON.stringify(wishlist));
-                        // Re-render
-                        renderWishlist();
+
+                // Reattach event listeners for quantity controls
+                document.querySelectorAll('.decrease-qty').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const index = parseInt(btn.getAttribute('data-index'));
+                        if (cart[index].quantity > 1) {
+                            cart[index].quantity -= 1;
+                        } else {
+                            cart.splice(index, 1);
+                        }
+                        localStorage.setItem('cart', JSON.stringify(cart));
+                        renderCart();
+                        updateCartCount();
+                        calculateSummary();
                     });
                 });
 
-                // Reattach event listeners to add to cart buttons
-                document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+                document.querySelectorAll('.increase-qty').forEach(btn => {
                     btn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        const id = parseInt(btn.getAttribute('data-id'));
-                        // Check if product is already in cart
-                        const existingItem = cart.find(item => item.id === id);
-                        if (existingItem) {
-                            // Increase quantity
-                            existingItem.quantity += 1;
-                        } else {
-                            // Add new item
-                            cart.push({ id: id, quantity: 1 });
-                        }
-                        // Save to localStorage
+                        const index = parseInt(btn.getAttribute('data-index'));
+                        cart[index].quantity += 1;
                         localStorage.setItem('cart', JSON.stringify(cart));
-                        // Update cart count
+                        renderCart();
                         updateCartCount();
-                        // Show a quick feedback (optional)
-                        btn.textContent = 'Added!';
-                        setTimeout(() => {
-                            btn.innerHTML = `
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-                                Add to Cart
-                            `;
-                        }, 1000);
+                        calculateSummary();
                     });
                 });
-                
-                // Update wishlist count
-                document.getElementById('wishlist-count').textContent = `You have ${wishlist.length} items saved in your wishlist.`;
+
+                document.querySelectorAll('.remove-item').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const index = parseInt(btn.getAttribute('data-index'));
+                        cart.splice(index, 1);
+                        localStorage.setItem('cart', JSON.stringify(cart));
+                        renderCart();
+                        updateCartCount();
+                        calculateSummary();
+                    });
+                });
             }
+            calculateSummary();
         }
 
         // Initial render
-        renderWishlist();
-        // Initial cart count update
+        renderCart();
         updateCartCount();
     </script>
 </body>
