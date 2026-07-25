@@ -26,6 +26,9 @@
             background: #ef4444;
             cursor: pointer;
         }
+        .heart-btn { z-index: 10; }
+        .heart-btn:hover { transform: scale(1.1); }
+        .heart-btn .heart-icon { transition: fill 0.2s ease; }
         .heart-btn:hover .heart-icon { fill: #ef4444; }
         .heart-btn.active .heart-icon { fill: #ef4444; }
         .scale-btn.active {
@@ -45,15 +48,14 @@
                     </a>
                 </div>
                 <nav class="hidden md:flex items-center gap-6 text-sm">
-                    <a href="Category.html" class="text-gray-600 hover:text-gray-900 transition-colors">Products</a>
-                    <a href="wishlist.html" class="text-gray-600 hover:text-gray-900 transition-colors">Wishlist</a>
-                </nav>
-
-                    <a href="carte.html" class="relative p-2 text-gray-600 hover:text-gray-900 transition-colors">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-                        <span id="cart-count" class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center hidden">0</span>
+                    <a href="Category.html" class="text-gray-600 hover:text-gray-900 transition-colors font-medium">Products</a>
+                    <a href="wishlist.html" class="text-gray-600 hover:text-gray-900 transition-colors flex items-center gap-1">
+                        Wishlist
+                        <span id="wishlist-count" class="w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center hidden">0</span>
                     </a>
-
+                </nav>
+                <div id="nav-right" class="flex items-center gap-4">
+                    <!-- Will be populated by JavaScript -->
                 </div>
             </div>
         </div>
@@ -334,8 +336,45 @@
             }
         ];
 
+        // Helper function for safe wishlist storage retrieval
+        function getWishlistFromStorage() {
+            try {
+                const raw = localStorage.getItem('wishlist');
+                if (!raw) return [];
+                const parsed = JSON.parse(raw);
+                if (!Array.isArray(parsed)) return [];
+                return parsed.map(n => Number(n)).filter(n => !isNaN(n));
+            } catch (e) {
+                return [];
+            }
+        }
+
+        // Helper function to show toast messages
+        function showToast(message) {
+            let container = document.getElementById('toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'toast-container';
+                container.className = 'fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none';
+                document.body.appendChild(container);
+            }
+            const toast = document.createElement('div');
+            toast.className = 'bg-gray-900 text-white text-sm font-medium px-4 py-3 rounded-xl shadow-lg transform transition-all duration-300 translate-y-2 opacity-0 pointer-events-auto flex items-center gap-2';
+            toast.innerHTML = `<span>${message}</span>`;
+            container.appendChild(toast);
+
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            });
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+
         // State
-        let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+        let wishlist = getWishlistFromStorage();
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
         let selectedSeries = [];
         let selectedBrands = [];
@@ -359,9 +398,50 @@
             }
         }
 
+        // Function to update wishlist count in header
+        function updateWishlistCount() {
+            wishlist = getWishlistFromStorage();
+            const wishlistCountEl = document.getElementById('wishlist-count');
+            if (wishlistCountEl) {
+                if (wishlist.length > 0) {
+                    wishlistCountEl.textContent = wishlist.length;
+                    wishlistCountEl.classList.remove('hidden');
+                } else {
+                    wishlistCountEl.classList.add('hidden');
+                }
+            }
+        }
+
+        // Function to add product to cart
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    quantity: 1
+                });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            
+            // Show notification
+            alert(`${product.name} added to cart!`);
+        }
+
         // Function to update navbar based on auth
         function updateNavbar() {
             const navRight = document.getElementById('nav-right');
+            if (!navRight) return;
+
             const token = localStorage.getItem('token');
             const user = JSON.parse(localStorage.getItem('user'));
 
@@ -375,11 +455,14 @@
                     <button id="logout-btn" class="px-4 py-2 text-sm font-medium bg-gray-100 text-gray-900 rounded-lg hover:bg-gray-200 transition-colors">Logout</button>
                 `;
                 // Add logout listener
-                document.getElementById('logout-btn').addEventListener('click', function() {
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('user');
-                    window.location.reload();
-                });
+                const logoutBtn = document.getElementById('logout-btn');
+                if (logoutBtn) {
+                    logoutBtn.addEventListener('click', function() {
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('user');
+                        window.location.reload();
+                    });
+                }
                 // Update cart count
                 updateCartCount();
             } else {
@@ -439,6 +522,7 @@
 
         // Function to render products
         function renderProducts() {
+            wishlist = (JSON.parse(localStorage.getItem('wishlist')) || []).map(Number);
             const filtered = filterProducts();
             const totalPages = Math.ceil(filtered.length / itemsPerPage);
             const startIndex = (currentPage - 1) * itemsPerPage;
@@ -449,7 +533,7 @@
                 <div class="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow duration-300">
                     <div class="relative overflow-hidden">
                         <span class="absolute top-3 left-3 px-2 py-1 text-xs font-semibold ${product.badgeColor} text-white rounded">${product.badge}</span>
-                        <button class="heart-btn absolute top-3 right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm hover:shadow-md transition-all ${wishlist.includes(product.id) ? 'active' : ''}" data-id="${product.id}">
+                        <button type="button" class="heart-btn absolute top-3 right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm hover:shadow-md transition-all ${wishlist.includes(product.id) ? 'active' : ''}" data-id="${product.id}" onclick="toggleWishlist(${product.id}, event)">
                             <svg class="heart-icon w-4 h-4 ${wishlist.includes(product.id) ? 'text-red-500' : 'text-gray-400'}" fill="${wishlist.includes(product.id) ? '#ef4444' : 'none'}" stroke="${wishlist.includes(product.id) ? 'none' : 'currentColor'}" viewBox="0 0 24 24" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
                             </svg>
@@ -526,7 +610,144 @@
                 }
             });
 
+            // Attach page button listeners
+            document.querySelectorAll('.page-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    currentPage = parseInt(btn.dataset.page);
+                    renderProducts();
+                });
+            });
+        }
 
+        // Initialize safely
+        function initPage() {
+            try { updateNavbar(); } catch (e) { console.error(e); }
+            try { renderProducts(); } catch (e) { console.error(e); }
+            try { updateCartCount(); } catch (e) { console.error(e); }
+            try { updateWishlistCount(); } catch (e) { console.error(e); }
+            try { initializeFilters(); } catch (e) { console.error(e); }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initPage);
+        } else {
+            initPage();
+        }
+
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'wishlist') {
+                wishlist = getWishlistFromStorage();
+                updateWishlistCount();
+                renderProducts();
+            }
+        });
+
+        function initializeFilters() {
+            // Series checkboxes
+            document.querySelectorAll('.series-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', () => {
+                    selectedSeries = Array.from(document.querySelectorAll('.series-checkbox:checked')).map(cb => cb.value);
+                    currentPage = 1;
+                    renderProducts();
+                });
+            });
+
+            // Brand checkboxes
+            document.querySelectorAll('.brand-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', () => {
+                    selectedBrands = Array.from(document.querySelectorAll('.brand-checkbox:checked')).map(cb => cb.value);
+                    currentPage = 1;
+                    renderProducts();
+                });
+            });
+
+            // Scale buttons
+            document.querySelectorAll('.scale-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    btn.classList.toggle('active');
+                    const scale = btn.dataset.scale;
+                    if (selectedScales.includes(scale)) {
+                        selectedScales = selectedScales.filter(s => s !== scale);
+                    } else {
+                        selectedScales.push(scale);
+                    }
+                    currentPage = 1;
+                    renderProducts();
+                });
+            });
+
+            // Price slider
+            const priceSlider = document.getElementById('price-slider');
+            const priceValue = document.getElementById('price-value');
+            priceSlider.addEventListener('input', (e) => {
+                maxPrice = parseInt(e.target.value);
+                priceValue.textContent = `$${maxPrice}`;
+                currentPage = 1;
+                renderProducts();
+            });
+
+            // Sort select
+            document.getElementById('sort-select').addEventListener('change', (e) => {
+                sortBy = e.target.value;
+                currentPage = 1;
+                renderProducts();
+            });
+
+            // Reset filters
+            document.getElementById('reset-filters').addEventListener('click', () => {
+                selectedSeries = [];
+                selectedBrands = [];
+                selectedScales = [];
+                maxPrice = 300;
+                sortBy = 'newest';
+                currentPage = 1;
+
+                document.querySelectorAll('.series-checkbox').forEach(cb => cb.checked = false);
+                document.querySelectorAll('.brand-checkbox').forEach(cb => cb.checked = false);
+                document.querySelectorAll('.scale-btn').forEach(btn => btn.classList.remove('active'));
+                document.getElementById('price-slider').value = 300;
+                document.getElementById('price-value').textContent = '$300';
+                document.getElementById('sort-select').value = 'newest';
+
+                renderProducts();
+            });
+        }
+
+        function toggleWishlist(productId, e) {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            productId = Number(productId);
+            wishlist = getWishlistFromStorage();
+            const product = products.find(p => Number(p.id) === productId);
+
+            let isAdded = false;
+            if (wishlist.includes(productId)) {
+                wishlist = wishlist.filter(id => Number(id) !== productId);
+            } else {
+                wishlist.push(productId);
+                isAdded = true;
+            }
+
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            updateWishlistCount();
+            renderProducts();
+
+            if (product) {
+                showToast(isAdded ? `Added "${product.name}" to Wishlist! ❤️` : `Removed "${product.name}" from Wishlist.`);
+            }
+        }
+
+        function attachProductEventListeners() {
+            // Add to cart buttons
+            document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const productId = parseInt(btn.dataset.id);
+                    addToCart(productId);
+                });
+            });
+        }
     </script>
 </body>
 </html>

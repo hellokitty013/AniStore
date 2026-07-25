@@ -10,6 +10,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Poppins', sans-serif; }
+        .heart-btn { z-index: 10; }
+        .heart-btn:hover { transform: scale(1.1); }
+        .heart-btn .heart-icon { transition: fill 0.2s ease; }
         .heart-btn:hover .heart-icon { fill: #ef4444; }
         .heart-btn.active .heart-icon { fill: #ef4444; }
     </style>
@@ -26,14 +29,13 @@
                 </div>
                 <nav class="hidden md:flex items-center gap-6 text-sm">
                     <a href="Category.html" class="text-gray-600 hover:text-gray-900 transition-colors">Products</a>
-                    <a href="wishlist.html" class="text-gray-600 hover:text-gray-900 transition-colors">Wishlist</a>
-                </nav>
-
-                    <a href="carte.html" class="relative p-2 text-gray-600 hover:text-gray-900 transition-colors">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
-                        <span id="cart-count" class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center hidden">0</span>
+                    <a href="wishlist.html" class="text-gray-600 hover:text-gray-900 transition-colors font-medium flex items-center gap-1">
+                        Wishlist
+                        <span id="wishlist-count" class="w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center hidden">0</span>
                     </a>
-<<
+                </nav>
+                <div id="nav-right" class="flex items-center gap-4">
+                    <!-- Will be populated by JavaScript -->
                 </div>
             </div>
         </div>
@@ -69,20 +71,139 @@
     </footer>
 
     <script>
-        // Product data
+        console.log('Script tag loaded - Starting wishlist page script');
+        
+        // Product data (same as Category.html)
         const products = [
-            { id: 0, name: "Satoru Gojo: Cursed Technique Reversal \"Red\" 1/7", price: 245.00, image: "/images/gojo.jpg" },
-            { id: 1, name: "Makima 1/8 Scale Figure by Kotobukiya", price: 189.99, image: "/images/makima.jpg" },
-            { id: 2, name: "Nendoroid Naruto Uzumaki (Re-run)", price: 54.00, image: "/images/naruto.jpg" },
-            { id: 3, name: "Power 1/7 Scale Figure by Good Smile Company", price: 215.00, image: "/images/power.jpg" },
-            { id: 4, name: "Megumi Fushiguro: ARTFX J 1/8", price: 145.00, image: "/images/megumi.jpg" },
-            { id: 5, name: "Nendoroid Denji", price: 59.99, image: "/images/denji.jpg" },
-            { id: 6, name: "Tanjiro Kamado 1/7 Scale Figure", price: 179.99, image: "/images/tanjiro.jpg" },
-            { id: 7, name: "Monkey D. Luffy Nendoroid", price: 65.00, image: "/images/luffy.jpg" }
+            {
+                id: 0,
+                series: "Jujutsu Kaisen",
+                name: "Satoru Gojo: Cursed Technique Reversal \"Red\" 1/7",
+                price: 245.00,
+                badge: "PRE-ORDER",
+                badgeColor: "bg-rose-500",
+                brand: "Good Smile Company",
+                scale: "1/7 Scale",
+                image: "/images/gojo.jpg"
+            },
+            {
+                id: 1,
+                series: "Chainsaw Man",
+                name: "Makima 1/8 Scale Figure by Kotobukiya",
+                price: 189.99,
+                badge: "IN STOCK",
+                badgeColor: "bg-blue-500",
+                brand: "Kotobukiya",
+                scale: "1/8 Scale",
+                image: "/images/makima.jpg"
+            },
+            {
+                id: 2,
+                series: "Naruto Shippuden",
+                name: "Nendoroid Naruto Uzumaki (Re-run)",
+                price: 54.00,
+                badge: "IN STOCK",
+                badgeColor: "bg-blue-500",
+                brand: "Good Smile Company",
+                scale: "Nendoroid",
+                image: "/images/naruto.jpg"
+            },
+            {
+                id: 3,
+                series: "Chainsaw Man",
+                name: "Power 1/7 Scale Figure by Good Smile Company",
+                price: 215.00,
+                badge: "NEW",
+                badgeColor: "bg-purple-500",
+                brand: "Good Smile Company",
+                scale: "1/7 Scale",
+                image: "/images/power.jpg"
+            },
+            {
+                id: 4,
+                series: "Jujutsu Kaisen",
+                name: "Megumi Fushiguro: ARTFX J 1/8",
+                price: 145.00,
+                badge: "IN STOCK",
+                badgeColor: "bg-green-500",
+                brand: "Kotobukiya",
+                scale: "1/8 Scale",
+                image: "/images/megumi.jpg"
+            },
+            {
+                id: 5,
+                series: "Chainsaw Man",
+                name: "Nendoroid Denji",
+                price: 59.99,
+                badge: "POPULAR",
+                badgeColor: "bg-orange-500",
+                brand: "Good Smile Company",
+                scale: "Nendoroid",
+                image: "/images/denji.jpg"
+            },
+            {
+                id: 6,
+                series: "Demon Slayer",
+                name: "Tanjiro Kamado 1/7 Scale Figure",
+                price: 179.99,
+                badge: "IN STOCK",
+                badgeColor: "bg-blue-500",
+                brand: "Good Smile Company",
+                scale: "1/7 Scale",
+                image: "/images/tanjiro.jpg"
+            },
+            {
+                id: 7,
+                series: "One Piece",
+                name: "Monkey D. Luffy Nendoroid",
+                price: 65.00,
+                badge: "IN STOCK",
+                badgeColor: "bg-blue-500",
+                brand: "Good Smile Company",
+                scale: "Nendoroid",
+                image: "/images/luffy.jpg"
+            }
         ];
 
+        // Helper function for safe wishlist storage retrieval
+        function getWishlistFromStorage() {
+            try {
+                const raw = localStorage.getItem('wishlist');
+                if (!raw) return [];
+                const parsed = JSON.parse(raw);
+                if (!Array.isArray(parsed)) return [];
+                return parsed.map(n => Number(n)).filter(n => !isNaN(n));
+            } catch (e) {
+                return [];
+            }
+        }
+
+        // Helper function to show toast messages
+        function showToast(message) {
+            let container = document.getElementById('toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'toast-container';
+                container.className = 'fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none';
+                document.body.appendChild(container);
+            }
+            const toast = document.createElement('div');
+            toast.className = 'bg-gray-900 text-white text-sm font-medium px-4 py-3 rounded-xl shadow-lg transform transition-all duration-300 translate-y-2 opacity-0 pointer-events-auto flex items-center gap-2';
+            toast.innerHTML = `<span>${message}</span>`;
+            container.appendChild(toast);
+
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            });
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+
         // Load wishlist and cart from localStorage
-        let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+        let wishlist = getWishlistFromStorage();
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
         // Helper: format currency
@@ -93,6 +214,8 @@
         // Function to update navbar
         function updateNavbar() {
             const navRight = document.getElementById('nav-right');
+            if (!navRight) return;
+            
             const token = localStorage.getItem('token');
             const user = JSON.parse(localStorage.getItem('user'));
 
@@ -105,11 +228,14 @@
                     <span class="text-gray-600 text-sm">Hi, ${user.fullName}</span>
                     <button id="logout-btn" class="px-4 py-2 text-sm font-medium bg-gray-100 text-gray-900 rounded-lg hover:bg-gray-200 transition-colors">Logout</button>
                 `;
-                document.getElementById('logout-btn').addEventListener('click', () => {
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('user');
-                    window.location.reload();
-                });
+                const logoutBtn = document.getElementById('logout-btn');
+                if (logoutBtn) {
+                    logoutBtn.addEventListener('click', () => {
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('user');
+                        window.location.reload();
+                    });
+                }
             } else {
                 navRight.innerHTML = `
                     <a href="carte.html" class="relative p-2 text-gray-600 hover:text-gray-900 transition-colors">
@@ -122,79 +248,140 @@
             }
             
             updateCartCount();
+            updateWishlistCount();
         }
 
         // Function to update cart count
         function updateCartCount() {
             const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
             const cartCountEl = document.getElementById('cart-count');
-            if (cartCount > 0) {
-                cartCountEl.textContent = cartCount;
-                cartCountEl.classList.remove('hidden');
-            } else {
-                cartCountEl.classList.add('hidden');
+            if (cartCountEl) {
+                if (cartCount > 0) {
+                    cartCountEl.textContent = cartCount;
+                    cartCountEl.classList.remove('hidden');
+                } else {
+                    cartCountEl.classList.add('hidden');
+                }
+            }
+        }
+
+        // Function to update wishlist count
+        function updateWishlistCount() {
+            wishlist = getWishlistFromStorage();
+            const countEl = document.getElementById('wishlist-count');
+            if (countEl) {
+                if (wishlist.length > 0) {
+                    countEl.textContent = wishlist.length;
+                    countEl.classList.remove('hidden');
+                } else {
+                    countEl.classList.add('hidden');
+                }
             }
         }
 
         // Function to render wishlist
         function renderWishlist() {
+            wishlist = getWishlistFromStorage();
             const container = document.getElementById('wishlist-container');
             const emptyDiv = document.getElementById('empty-wishlist');
             
-            if (wishlist.length === 0) {
-                container.innerHTML = '';
+            if (!container || !emptyDiv) return;
+
+            let html = '';
+            let foundCount = 0;
+            
+            wishlist.forEach(id => {
+                const numId = Number(id);
+                if (isNaN(numId)) return;
+                const product = products.find(p => Number(p.id) === numId);
+                
+                if (!product) return;
+                
+                foundCount++;
+                html += `
+                    <div class="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                        <div class="relative overflow-hidden">
+                            <button type="button" class="heart-btn active absolute top-3 right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm hover:shadow-md transition-all" onclick="toggleWishlist(${product.id}, event)">
+                                <svg class="heart-icon w-4 h-4 text-red-500" fill="#ef4444" stroke="none" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                </svg>
+                            </button>
+                            <img src="${product.image}" alt="${product.name}" class="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <div class="p-5">
+                            <h3 class="text-sm font-semibold text-gray-900 mb-2">${product.name}</h3>
+                            <div class="flex items-baseline gap-2 mb-4">
+                                <span class="text-lg font-bold text-gray-900">${formatCurrency(product.price)}</span>
+                            </div>
+                            <button type="button" class="add-to-cart-btn w-full py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center gap-2" onclick="addToCart(${product.id}, this)">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+            if (foundCount === 0) {
                 emptyDiv.classList.remove('hidden');
             } else {
                 emptyDiv.classList.add('hidden');
-                let html = '';
-                wishlist.forEach(id => {
-                    const product = products.find(p => p.id === id);
-                    if (!product) return;
-                    html += `
-                        <div class="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                            <div class="relative overflow-hidden">
-                                <button class="heart-btn active absolute top-3 right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm hover:shadow-md transition-all" onclick="toggleWishlist(${product.id})">
-                                    <svg class="heart-icon w-4 h-4 text-red-500" fill="#ef4444" stroke="none" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                                    </svg>
-                                </button>
-                                <img src="${product.image}" alt="${product.name}" class="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300">
-                            </div>
-                            <div class="p-5">
-                                <h3 class="text-sm font-semibold text-gray-900 mb-2">${product.name}</h3>
-                                <div class="flex items-baseline gap-2 mb-4">
-                                    <span class="text-lg font-bold text-gray-900">${formatCurrency(product.price)}</span>
-                                </div>
-                                <button class="add-to-cart-btn w-full py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center gap-2" onclick="addToCart(${product.id}, this)">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
-                                    Add to Cart
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                });
-                container.innerHTML = html;
             }
         }
 
+        // Listen to storage updates from other tabs
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'wishlist') {
+                wishlist = getWishlistFromStorage();
+                updateWishlistCount();
+                renderWishlist();
+            }
+        });
+
         // Function to toggle wishlist
-        function toggleWishlist(id) {
-            if (wishlist.includes(id)) {
-                wishlist = wishlist.filter(item => item !== id);
+        function toggleWishlist(id, e) {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            const numId = Number(id);
+            wishlist = getWishlistFromStorage();
+            const product = products.find(p => Number(p.id) === numId);
+
+            let isAdded = false;
+            if (wishlist.includes(numId)) {
+                wishlist = wishlist.filter(item => Number(item) !== numId);
             } else {
-                wishlist.push(id);
+                wishlist.push(numId);
+                isAdded = true;
             }
             localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            updateWishlistCount();
             renderWishlist();
+
+            if (product) {
+                showToast(isAdded ? `Added "${product.name}" to Wishlist! ❤️` : `Removed "${product.name}" from Wishlist.`);
+            }
         }
 
         // Function to add to cart
         function addToCart(id, btn) {
-            const existingItem = cart.find(item => item.id === id);
+            const numId = Number(id);
+            const product = products.find(p => Number(p.id) === numId);
+            if (!product) return;
+
+            const existingItem = cart.find(item => Number(item.id) === numId);
             if (existingItem) {
                 existingItem.quantity += 1;
             } else {
-                cart.push({ id: id, quantity: 1 });
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    quantity: 1
+                });
             }
             localStorage.setItem('cart', JSON.stringify(cart));
             updateCartCount();
@@ -205,7 +392,17 @@
             }, 1000);
         }
 
-        // Initialize
-        updateNavbar();
-        renderWishlist();
+        // Initialize safely
+        function initPage() {
+            try { updateNavbar(); } catch (e) { console.error(e); }
+            try { renderWishlist(); } catch (e) { console.error(e); }
+        }
 
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initPage);
+        } else {
+            initPage();
+        }
+    </script>
+</body>
+</html>

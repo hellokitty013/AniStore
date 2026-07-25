@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AniStore - Login / Register</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         * {
             margin: 0;
@@ -317,3 +318,206 @@
             <div class="auth-section">
                 <h2>WELCOME BACK</h2>
                 <p>Sign in to access your collection and orders.</p>
+                <form class="auth-form" id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">Email address</label>
+                        <input type="email" id="loginEmail" name="email" required placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" name="password" required placeholder="Enter your password">
+                    </div>
+                    <div class="forgot-password">
+                        <a href="#">Forgot password?</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sign In</button>
+                    <div class="divider">
+                        <span>or continue with</span>
+                    </div>
+                    <!-- Google Sign-In button rendered by GSI library -->
+                    <div id="google-signin-btn" style="display:flex; justify-content:center; margin-top:0.5rem;"></div>
+                </form>
+            </div>
+            
+            <!-- Register Section -->
+            <div class="auth-section" style="background-color: #fafafa;">
+                <h2>CREATE ACCOUNT</h2>
+                <p>Join us to start your anime collection journey.</p>
+                <form class="auth-form" id="registerForm">
+                    <div class="form-group">
+                        <label for="registerName">Full Name</label>
+                        <input type="text" id="registerName" name="fullName" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail">Email address</label>
+                        <input type="email" id="registerEmail" name="email" required placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Password</label>
+                        <input type="password" id="registerPassword" name="password" required placeholder="Create a password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Account</button>
+                    <div class="terms">
+                        By creating an account, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Newsletter -->
+        <div class="newsletter">
+            <h3>Subscribe to our newsletter</h3>
+            <p>Get updates on new arrivals and exclusive offers</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Enter your email address">
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>AniStore</h4>
+                <p>Your premier destination for high-quality anime figures, collectibles, and merchandise. We bring the best of Japanese pop culture to your collection.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Shop</h4>
+                <ul class="footer-links">
+                    <li><a href="Category.html">All Products</a></li>
+                    <li><a href="Category.html">New Arrivals</a></li>
+                    <li><a href="Category.html">Best Sellers</a></li>
+                    <li><a href="Category.html">Pre-orders</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">Returns</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul class="footer-links">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 AniStore. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+        // Google Sign-In callback (called by GSI library after user picks account)
+        async function handleGoogleLogin(response) {
+            try {
+                const res = await fetch('/api/auth/google', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ credential: response.credential })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    window.location.href = 'Category.html';
+                } else {
+                    alert(data.error || 'Google login failed');
+                }
+            } catch (err) {
+                console.error('Google login error:', err);
+                alert('Google login failed. Please try again.');
+            }
+        }
+
+        // Fetch Google Client ID from server and render the GSI button
+        async function initGoogleSignIn() {
+            try {
+                const res = await fetch('/api/config');
+                const { googleClientId } = await res.json();
+                if (!googleClientId || !window.google) return;
+
+                google.accounts.id.initialize({
+                    client_id: googleClientId,
+                    callback: handleGoogleLogin
+                });
+
+                google.accounts.id.renderButton(
+                    document.getElementById('google-signin-btn'),
+                    { theme: 'outline', size: 'large', width: 320, text: 'continue_with' }
+                );
+            } catch (err) {
+                console.error('Failed to init Google Sign-In:', err);
+            }
+        }
+
+        // Wait for GSI library to load then initialize
+        if (window.google) {
+            initGoogleSignIn();
+        } else {
+            window.addEventListener('load', initGoogleSignIn);
+        }
+
+        // Login form handler
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    window.location.href = 'Category.html';
+                } else {
+                    alert(data.error || 'Login failed');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('Login failed. Please try again.');
+            }
+        });
+
+        // Register form handler
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fullName = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ fullName, email, password })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    window.location.href = 'Category.html';
+                } else {
+                    alert(data.error || 'Registration failed');
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                alert('Registration failed. Please try again.');
+            }
+        });
+    </script>
+
+</body>
+</html>
