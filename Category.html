@@ -48,11 +48,12 @@
                     <a href="Category.html" class="text-gray-600 hover:text-gray-900 transition-colors">Products</a>
                     <a href="wishlist.html" class="text-gray-600 hover:text-gray-900 transition-colors">Wishlist</a>
                 </nav>
-                <div class="flex items-center gap-4" id="nav-right">
+
                     <a href="carte.html" class="relative p-2 text-gray-600 hover:text-gray-900 transition-colors">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
                         <span id="cart-count" class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center hidden">0</span>
                     </a>
+
                 </div>
             </div>
         </div>
@@ -525,154 +526,7 @@
                 }
             });
 
-            document.querySelectorAll('.page-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    currentPage = parseInt(btn.dataset.page);
-                    renderProducts();
-                });
-            });
-        }
 
-        // Function to attach product event listeners
-        function attachProductEventListeners() {
-            // Heart buttons
-            document.querySelectorAll('.heart-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const id = parseInt(btn.dataset.id);
-                    if (wishlist.includes(id)) {
-                        // Remove from wishlist
-                        wishlist = wishlist.filter(item => item !== id);
-                        btn.classList.remove('active');
-                        const svg = btn.querySelector('.heart-icon');
-                        svg.setAttribute('fill', 'none');
-                        svg.setAttribute('stroke', 'currentColor');
-                        svg.classList.remove('text-red-500');
-                        svg.classList.add('text-gray-400');
-                    } else {
-                        // Add to wishlist
-                        wishlist.push(id);
-                        btn.classList.add('active');
-                        const svg = btn.querySelector('.heart-icon');
-                        svg.setAttribute('fill', '#ef4444');
-                        svg.setAttribute('stroke', 'none');
-                        svg.classList.remove('text-gray-400');
-                        svg.classList.add('text-red-500');
-                    }
-                    localStorage.setItem('wishlist', JSON.stringify(wishlist));
-                });
-            });
-
-            // Add to cart buttons
-            document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const id = parseInt(btn.dataset.id);
-                    const existingItem = cart.find(item => item.id === id);
-                    if (existingItem) {
-                        existingItem.quantity += 1;
-                    } else {
-                        cart.push({ id: id, quantity: 1 });
-                    }
-                    localStorage.setItem('cart', JSON.stringify(cart));
-                    updateCartCount();
-                    btn.textContent = 'Added!';
-                    setTimeout(() => {
-                        btn.innerHTML = `
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-                            Add to Cart
-                        `;
-                    }, 1000);
-                });
-            });
-        }
-
-        // Initialize filters
-        function initFilters() {
-            // Series checkboxes
-            document.querySelectorAll('.series-checkbox').forEach(checkbox => {
-                checkbox.addEventListener('change', () => {
-                    if (checkbox.checked) {
-                        selectedSeries.push(checkbox.value);
-                    } else {
-                        selectedSeries = selectedSeries.filter(s => s !== checkbox.value);
-                    }
-                    currentPage = 1;
-                    renderProducts();
-                });
-            });
-
-            // Brand checkboxes
-            document.querySelectorAll('.brand-checkbox').forEach(checkbox => {
-                checkbox.addEventListener('change', () => {
-                    if (checkbox.checked) {
-                        selectedBrands.push(checkbox.value);
-                    } else {
-                        selectedBrands = selectedBrands.filter(b => b !== checkbox.value);
-                    }
-                    currentPage = 1;
-                    renderProducts();
-                });
-            });
-
-            // Scale buttons
-            document.querySelectorAll('.scale-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const scale = btn.dataset.scale;
-                    if (selectedScales.includes(scale)) {
-                        selectedScales = selectedScales.filter(s => s !== scale);
-                        btn.classList.remove('active');
-                    } else {
-                        selectedScales.push(scale);
-                        btn.classList.add('active');
-                    }
-                    currentPage = 1;
-                    renderProducts();
-                });
-            });
-
-            // Price slider
-            const priceSlider = document.getElementById('price-slider');
-            const priceValue = document.getElementById('price-value');
-            priceSlider.addEventListener('input', () => {
-                maxPrice = parseInt(priceSlider.value);
-                priceValue.textContent = `$${maxPrice}`;
-                currentPage = 1;
-                renderProducts();
-            });
-
-            // Sort select
-            document.getElementById('sort-select').addEventListener('change', (e) => {
-                sortBy = e.target.value;
-                currentPage = 1;
-                renderProducts();
-            });
-
-            // Reset filters
-            document.getElementById('reset-filters').addEventListener('click', () => {
-                selectedSeries = [];
-                selectedBrands = [];
-                selectedScales = [];
-                maxPrice = 300;
-                sortBy = 'newest';
-                currentPage = 1;
-
-                // Reset UI
-                document.querySelectorAll('.series-checkbox').forEach(cb => cb.checked = false);
-                document.querySelectorAll('.brand-checkbox').forEach(cb => cb.checked = false);
-                document.querySelectorAll('.scale-btn').forEach(btn => btn.classList.remove('active'));
-                priceSlider.value = 300;
-                priceValue.textContent = '$300';
-                document.getElementById('sort-select').value = 'newest';
-
-                renderProducts();
-            });
-        }
-
-        // Initial setup
-        updateNavbar();
-        initFilters();
-        renderProducts();
     </script>
 </body>
 </html>
