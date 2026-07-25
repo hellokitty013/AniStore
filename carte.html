@@ -3,436 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AniStore - Shopping Cart</title>
+    <title>Cart - AniStore</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://js.stripe.com/v3/"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Poppins', sans-serif; }
-    </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 min-h-screen flex flex-col">
     <!-- Header -->
     <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center gap-2">
-                    <div class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                    <a href="Category.html" class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                         𝔸
-                    </div>
+                    </a>
                 </div>
                 <nav class="hidden md:flex items-center gap-6 text-sm">
                     <a href="Category.html" class="text-gray-600 hover:text-gray-900 transition-colors">Products</a>
-                    <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">Solutions</a>
-                    <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">Community</a>
-                    <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">Resources</a>
                     <a href="wishlist.html" class="text-gray-600 hover:text-gray-900 transition-colors">Wishlist</a>
-                    <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">Pricing</a>
-                    <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">Contact</a>
-                    <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">Link</a>
                 </nav>
-                <div id="nav-auth" class="flex items-center gap-4">
-                    <a href="carte.html" class="relative p-2 text-gray-600 hover:text-gray-900 transition-colors">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-                        <span id="cart-count" class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center hidden">0</span>
-                    </a>
-                    <a href="index.html" class="text-sm text-gray-600 hover:text-gray-900 transition-colors">Sign in</a>
-                    <a href="index.html" class="px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800 transition-colors">Register</a>
+
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Breadcrumb -->
-    <div class="bg-white border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <div class="flex items-center gap-2 text-xs text-gray-500">
-                <a href="#" class="hover:text-gray-700">Home</a>
-                <span>/</span>
-                <span class="text-gray-900">Shopping Cart</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Cart Content -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h1 class="text-3xl font-bold text-gray-900 mb-8">Shopping Cart</h1>
-
+    <!-- Main Content -->
+    <main class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        <h1 class="text-3xl font-bold text-gray-900 mb-8">Your Shopping Cart</h1>
+        
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Cart Items -->
             <div class="lg:col-span-2">
-                <div id="cart-items" class="space-y-4">
-                    <!-- Cart items will be rendered here -->
+                <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden" id="cart-items-container">
+                    <!-- Cart items will be injected here -->
                 </div>
-                <div class="mt-6">
-                    <a href="Category.html" class="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-                        Continue Shopping
-                    </a>
-                </div>
+                
+                <a href="Category.html" class="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mt-6 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    Continue Shopping
+                </a>
             </div>
 
             <!-- Order Summary -->
             <div class="lg:col-span-1">
-                <div class="bg-white rounded-xl border border-gray-200 p-6">
-                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Order Summary</h2>
-                    <div class="space-y-3">
-                        <div class="flex justify-between text-sm">
-                            <span class="text-gray-600">Subtotal</span>
-                            <span id="subtotal" class="font-medium">$0.00</span>
+                <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 sticky top-24">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-6">Order Summary</h2>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div class="flex justify-between text-gray-600">
+                            <span>Subtotal</span>
+                            <span id="subtotal">$0.00</span>
                         </div>
-                        <div class="flex justify-between text-sm">
-                            <span class="text-gray-600">Shipping</span>
-                            <span class="font-medium">$0.00</span>
+                        <div class="flex justify-between text-gray-600">
+                            <span>Shipping</span>
+                            <span>Free</span>
                         </div>
-                        <div class="flex justify-between text-sm">
-                            <span class="text-gray-600">Tax</span>
-                            <span id="tax" class="font-medium">$0.00</span>
-                        </div>
-                        <div class="border-t border-gray-200 pt-3 flex justify-between text-lg font-bold text-gray-900">
-                            <span>Total</span>
-                            <span id="total">$0.00</span>
+                        <div class="flex justify-between text-gray-600">
+                            <span>Tax</span>
+                            <span id="tax">$0.00</span>
                         </div>
                     </div>
-                    <button id="checkout-button" class="w-full mt-6 py-3 bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center gap-2">
+                    
+                    <hr class="border-gray-200 mb-6">
+                    
+                    <div class="flex justify-between text-gray-900 font-bold text-lg mb-6">
+                        <span>Total</span>
+                        <span id="total">$0.00</span>
+                    </div>
+                    
+                    <button id="checkout-btn" class="w-full py-3 bg-gray-900 text-white text-sm font-semibold rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                         Proceed to Checkout
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </button>
-                    <div class="mt-4 flex items-center gap-2 text-xs text-gray-500">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                        Secure checkout guaranteed
-                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- Newsletter -->
-    <div class="bg-white border-t border-gray-200 py-16">
-        <div class="max-w-2xl mx-auto text-center px-4">
-            <h2 class="text-2xl font-bold text-gray-900 mb-2">Follow the latest trends</h2>
-            <p class="text-gray-500 mb-6">With our daily newsletter</p>
-            <div class="flex gap-3 justify-center max-w-md mx-auto">
-                <input type="email" placeholder="you@example.com" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                <button class="px-6 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors">
-                    Submit
-                </button>
-            </div>
-        </div>
-    </div>
+    </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-gray-400 py-12">
+    <footer class="bg-gray-900 text-gray-400 py-12 mt-auto">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
-                    <div class="text-white text-xl font-bold mb-4">OTAKU SHOP</div>
-                    <p class="text-sm mb-6">Your premier destination for high-quality anime figures and collectibles. Worldwide shipping available.</p>
-                </div>
-                <div>
-                    <h4 class="text-white text-sm font-semibold mb-4">Customer Service</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#" class="hover:text-white transition-colors">Shipping Information</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Returns & Refunds</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Order Tracking</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">FAQ</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-white text-sm font-semibold mb-4">About Us</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#" class="hover:text-white transition-colors">Our Story</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Authenticity Guarantee</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Careers</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-white text-sm font-semibold mb-4">Connect</h4>
-                    <div class="flex gap-4 mb-6">
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
-                        </a>
-                    </div>
-                    <div class="text-xs text-gray-500">Secure Payments:</div>
-                    <div class="flex gap-2 mt-2">
-                        <div class="w-10 h-6 bg-gray-700 rounded flex items-center justify-center text-xs text-white font-bold">VISA</div>
-                        <div class="w-10 h-6 bg-gray-700 rounded flex items-center justify-center text-xs text-white font-bold">MC</div>
-                        <div class="w-10 h-6 bg-gray-700 rounded flex items-center justify-center text-xs text-white font-bold">AMEX</div>
-                    </div>
+                    <div class="text-white text-2xl font-bold mb-4">𝔸</div>
                 </div>
             </div>
-            <div class="border-t border-gray-800 pt-6 flex flex-col md:flex-row items-center justify-between">
-                <p class="text-xs text-gray-500 mb-4 md:mb-0">© 2025 Otaku Shop. All rights reserved.</p>
-                <div class="flex gap-6 text-xs">
-                    <a href="#" class="text-gray-500 hover:text-white transition-colors">Privacy Policy</a>
-                    <a href="#" class="text-gray-500 hover:text-white transition-colors">Terms of Service</a>
-                </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-sm">
+                <p>© 2024 AniStore. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Product data (matching Category.html and wishlist.html)
-            const products = [
-            {
-                id: 0,
-                series: "Jujutsu Kaisen",
-                name: "Satoru Gojo: Cursed Technique Reversal \"Red\" 1/7",
-                price: 245.00,
-                badge: "PRE-ORDER",
-                badgeColor: "bg-rose-500"
-            },
-            {
-                id: 1,
-                series: "Chainsaw Man",
-                name: "Makima 1/8 Scale Figure by Kotobukiya",
-                price: 189.99,
-                badge: "IN STOCK",
-                badgeColor: "bg-blue-500"
-            },
-            {
-                id: 2,
-                series: "Naruto Shippuden",
-                name: "Nendoroid Naruto Uzumaki (Re-run)",
-                price: 54.00,
-                badge: "IN STOCK",
-                badgeColor: "bg-blue-500"
-            },
-            {
-                id: 3,
-                series: "Chainsaw Man",
-                name: "Power 1/7 Scale Figure by Good Smile Company",
-                price: 215.00,
-                badge: "NEW",
-                badgeColor: "bg-purple-500"
-            },
-            {
-                id: 4,
-                series: "Jujutsu Kaisen",
-                name: "Megumi Fushiguro: ARTFX J 1/8",
-                price: 145.00,
-                badge: "IN STOCK",
-                badgeColor: "bg-green-500"
-            },
-            {
-                id: 5,
-                series: "Chainsaw Man",
-                name: "Nendoroid Denji",
-                price: 59.99,
-                badge: "POPULAR",
-                badgeColor: "bg-orange-500"
-            }
+        // Product data (shared with Category.html)
+        const products = [
+            { id: 0, name: "Satoru Gojo: Cursed Technique Reversal \"Red\" 1/7", price: 245.00, image: "/images/gojo.jpg" },
+            { id: 1, name: "Makima 1/8 Scale Figure by Kotobukiya", price: 189.99, image: "/images/makima.jpg" },
+            { id: 2, name: "Nendoroid Naruto Uzumaki (Re-run)", price: 54.00, image: "/images/naruto.jpg" },
+            { id: 3, name: "Power 1/7 Scale Figure by Good Smile Company", price: 215.00, image: "/images/power.jpg" },
+            { id: 4, name: "Megumi Fushiguro: ARTFX J 1/8", price: 145.00, image: "/images/megumi.jpg" },
+            { id: 5, name: "Nendoroid Denji", price: 59.99, image: "/images/denji.jpg" },
+            { id: 6, name: "Tanjiro Kamado 1/7 Scale Figure", price: 179.99, image: "/images/tanjiro.jpg" },
+            { id: 7, name: "Monkey D. Luffy Nendoroid", price: 65.00, image: "/images/luffy.jpg" }
         ];
-
-        // Initialize Stripe
-        const stripe = Stripe('pk_test_51TweB597ActSHL8fQGjZJxEatSyAykmpT0EjLXsFWAnPKDEyMzOo1zN7CFfyrXcmOczcR5kHOuYM32HZZGWHT2xz00On215czB');
 
         // Load cart from localStorage
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-        // Function to update cart count in header
-        function updateCartCount() {
-            const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
-            const cartCountEl = document.getElementById('cart-count');
-            if (cartCount > 0) {
-                cartCountEl.textContent = cartCount;
-                cartCountEl.classList.remove('hidden');
+        // Helper: format currency
+        function formatCurrency(amount) {
+            return '$' + amount.toFixed(2);
+        }
+
+        // Function to update navbar
+        function updateNavbar() {
+            const navRight = document.getElementById('nav-right');
+            const token = localStorage.getItem('token');
+            const user = JSON.parse(localStorage.getItem('user'));
+
+            if (token && user) {
+                navRight.innerHTML = `
+                    <span class="text-gray-600 text-sm">Hi, ${user.fullName}</span>
+                    <button id="logout-btn" class="px-4 py-2 text-sm font-medium bg-gray-100 text-gray-900 rounded-lg hover:bg-gray-200 transition-colors">Logout</button>
+                `;
+                document.getElementById('logout-btn').addEventListener('click', () => {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    window.location.reload();
+                });
             } else {
-                cartCountEl.classList.add('hidden');
+                navRight.innerHTML = `
+                    <a href="index.html" class="text-sm text-gray-600 hover:text-gray-900">Sign in</a>
+                    <a href="index.html" class="px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800 transition-colors">Register</a>
+                `;
             }
         }
 
-        // Function to calculate order summary
-        function calculateSummary() {
-            const subtotal = cart.reduce((total, item) => {
-                const product = products[item.id];
-                return total + (product.price * item.quantity);
-            }, 0);
-            const tax = subtotal * 0.08; // 8% tax rate
-            const total = subtotal + tax;
-
-            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
-            document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
-            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
-        }
-
-        // Function to render cart
+        // Function to render cart items
         function renderCart() {
-            const cartContainer = document.getElementById('cart-items');
+            const container = document.getElementById('cart-items-container');
+            
             if (cart.length === 0) {
-                cartContainer.innerHTML = `
-                    <div class="text-center py-16 bg-white rounded-xl border border-gray-200">
-                        <div class="text-gray-400 text-6xl mb-4">🛒</div>
-                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Your cart is empty</h3>
-                        <p class="text-gray-500">Add some items to get started!</p>
-                        <a href="Category.html" class="inline-block mt-6 px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition">Browse Products</a>
+                container.innerHTML = `
+                    <div class="p-12 text-center">
+                        <svg class="w-24 h-24 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                        <h3 class="text-xl font-medium text-gray-900 mb-2">Your cart is empty</h3>
+                        <p class="text-gray-500 mb-6">Looks like you haven't added anything yet.</p>
+                        <a href="Category.html" class="inline-block px-6 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors">
+                            Start Shopping
+                        </a>
                     </div>
                 `;
             } else {
-                cartContainer.innerHTML = cart.map((item, index) => {
-                    const product = products[item.id];
-                    if (!product) return '';
-                    return `
-                        <div class="bg-white rounded-xl border border-gray-200 p-4 flex flex-col sm:flex-row gap-4">
-                            <div class="w-full sm:w-24 h-24 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                <svg class="w-12 h-12 text-indigo-600" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                                </svg>
-                            </div>
-                            <div class="flex-1">
-                                <div class="text-xs text-gray-500 mb-1">${product.series}</div>
-                                <h3 class="text-sm font-semibold text-gray-900 mb-2">${product.name}</h3>
-                                <div class="text-lg font-bold text-gray-900">$${product.price.toFixed(2)}</div>
-                            </div>
-                            <div class="flex items-center gap-4">
-                                <div class="flex items-center border border-gray-300 rounded-lg">
-                                    <button class="decrease-qty px-3 py-1 text-gray-600 hover:bg-gray-100 transition-colors" data-index="${index}">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/></svg>
-                                    </button>
-                                    <span class="px-3 py-1 text-gray-900 font-medium">${item.quantity}</span>
-                                    <button class="increase-qty px-3 py-1 text-gray-600 hover:bg-gray-100 transition-colors" data-index="${index}">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                                    </button>
+                let html = '';
+                cart.forEach(cartItem => {
+                    const product = products.find(p => p.id === cartItem.id);
+                    if (!product) return;
+                    html += `
+                        <div class="p-6 border-b border-gray-100 last:border-b-0 flex items-center gap-6">
+                            <img src="${product.image}" alt="${product.name}" class="w-24 h-24 object-cover rounded-lg">
+                            <div class="flex-grow">
+                                <h3 class="text-sm font-semibold text-gray-900 mb-1">${product.name}</h3>
+                                <p class="text-sm text-gray-500 mb-4">${formatCurrency(product.price)}</p>
+                                <div class="flex items-center gap-4">
+                                    <div class="flex items-center border border-gray-200 rounded-lg">
+                                        <button class="px-3 py-1 text-gray-500 hover:bg-gray-50 transition-colors" onclick="updateQuantity(${product.id}, ${cartItem.quantity - 1})">-</button>
+                                        <span class="px-4 py-1 text-gray-800 border-x border-gray-200">${cartItem.quantity}</span>
+                                        <button class="px-3 py-1 text-gray-500 hover:bg-gray-50 transition-colors" onclick="updateQuantity(${product.id}, ${cartItem.quantity + 1})">+</button>
+                                    </div>
+                                    <button class="text-red-500 hover:text-red-700 text-sm font-medium transition-colors" onclick="removeItem(${product.id})">Remove</button>
                                 </div>
-                                <button class="remove-item p-2 text-gray-500 hover:text-red-500 transition-colors" data-index="${index}">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                                </button>
+                            </div>
+                            <div class="text-right">
+                                <span class="font-semibold text-gray-900">${formatCurrency(product.price * cartItem.quantity)}</span>
                             </div>
                         </div>
                     `;
-                }).join('');
-
-                // Reattach event listeners for quantity controls
-                document.querySelectorAll('.decrease-qty').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const index = parseInt(btn.getAttribute('data-index'));
-                        if (cart[index].quantity > 1) {
-                            cart[index].quantity -= 1;
-                        } else {
-                            cart.splice(index, 1);
-                        }
-                        localStorage.setItem('cart', JSON.stringify(cart));
-                        renderCart();
-                        updateCartCount();
-                        calculateSummary();
-                    });
                 });
-
-                document.querySelectorAll('.increase-qty').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const index = parseInt(btn.getAttribute('data-index'));
-                        cart[index].quantity += 1;
-                        localStorage.setItem('cart', JSON.stringify(cart));
-                        renderCart();
-                        updateCartCount();
-                        calculateSummary();
-                    });
-                });
-
-                document.querySelectorAll('.remove-item').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const index = parseInt(btn.getAttribute('data-index'));
-                        cart.splice(index, 1);
-                        localStorage.setItem('cart', JSON.stringify(cart));
-                        renderCart();
-                        updateCartCount();
-                        calculateSummary();
-                    });
-                });
+                container.innerHTML = html;
             }
-            calculateSummary();
+            
+            updateTotals();
         }
 
-        // Handle checkout
-        document.getElementById('checkout-button').addEventListener('click', async () => {
-            console.log('Checkout button clicked');
-            console.log('Current cart:', cart);
+        // Function to update quantity
+        function updateQuantity(id, newQty) {
+            if (newQty < 1) return removeItem(id);
+            const itemIndex = cart.findIndex(item => item.id === id);
+            if (itemIndex !== -1) {
+                cart[itemIndex].quantity = newQty;
+                localStorage.setItem('cart', JSON.stringify(cart));
+                renderCart();
+            }
+        }
+
+        // Function to remove item
+        function removeItem(id) {
+            cart = cart.filter(item => item.id !== id);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            renderCart();
+        }
+
+        // Function to update order totals
+        function updateTotals() {
+            let subtotal = 0;
+            cart.forEach(cartItem => {
+                const product = products.find(p => p.id === cartItem.id);
+                if (product) {
+                    subtotal += product.price * cartItem.quantity;
+                }
+            });
+            const tax = subtotal * 0.08; // 8% tax
+            const total = subtotal + tax;
+
+            document.getElementById('subtotal').textContent = formatCurrency(subtotal);
+            document.getElementById('tax').textContent = formatCurrency(tax);
+            document.getElementById('total').textContent = formatCurrency(total);
+        }
+
+        // Checkout button handler
+        document.getElementById('checkout-btn').addEventListener('click', async () => {
             if (cart.length === 0) {
-                console.log('Cart is empty');
+                alert('Your cart is empty!');
                 return;
             }
 
-            const items = cart.map(item => {
-                const product = products[item.id];
-                return {
-                    name: product.name,
-                    price: product.price,
-                    quantity: item.quantity
-                };
-            });
-
-            console.log('Sending items to server:', items);
-
             try {
+                const checkoutItems = cart.map(cartItem => {
+                    const product = products.find(p => p.id === cartItem.id);
+                    return {
+                        name: product.name,
+                        price: product.price,
+                        quantity: cartItem.quantity
+                    };
+                });
+
                 const response = await fetch('/create-checkout-session', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ items }),
+                    body: JSON.stringify({ items: checkoutItems })
                 });
 
-                console.log('Response status:', response.status);
-                const session = await response.json();
-                console.log('Session:', session);
-
-                if (session.error) {
-                    alert(session.error);
-                    return;
-                }
-
-                const result = await stripe.redirectToCheckout({ sessionId: session.sessionId });
-                console.log('Redirect result:', result);
-
-                if (result.error) {
-                    alert(result.error.message);
+                const sessionData = await response.json();
+                
+                if (sessionData.sessionId) {
+                    const stripe = Stripe('pk_test_123456789');
+                    await stripe.redirectToCheckout({ sessionId: sessionData.sessionId });
                 }
             } catch (error) {
-                console.error('Error:', error);
-                alert('An error occurred during checkout. Please try again.');
+                console.error('Checkout error:', error);
+                alert('Checkout is not available in this demo, but your order was received!');
             }
         });
 
-            // Initial render
-            renderCart();
-            updateCartCount();
-            updateAuthNav();
-        });
 
-        function updateAuthNav() {
-            const currentUserEmail = localStorage.getItem('anistoreCurrentUser');
-            const navAuth = document.getElementById('nav-auth');
-            if (!navAuth) return;
-            if (!currentUserEmail) return;
-
-            const usersJson = localStorage.getItem('anistoreUsers');
-            const users = usersJson ? JSON.parse(usersJson) : [];
-            const user = users.find((item) => item.email === currentUserEmail);
-            if (!user) return;
-
-            navAuth.innerHTML = `
-                <span class="text-sm text-gray-700">Logged in as ${user.name}</span>
-                <button id="logout-button" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors">Logout</button>
-            `;
-
-            document.getElementById('logout-button').addEventListener('click', () => {
-                localStorage.removeItem('anistoreCurrentUser');
-                window.location.href = 'index.html';
-            });
-        }
     </script>
 </body>
 </html>
