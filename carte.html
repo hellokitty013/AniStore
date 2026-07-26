@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cart - AniStore</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://js.stripe.com/v3/"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -21,9 +22,13 @@
                 </div>
                 <nav class="hidden md:flex items-center gap-6 text-sm">
                     <a href="Category.html" class="text-gray-600 hover:text-gray-900 transition-colors">Products</a>
-                    <a href="wishlist.html" class="text-gray-600 hover:text-gray-900 transition-colors">Wishlist</a>
+                    <a href="wishlist.html" class="text-gray-600 hover:text-gray-900 transition-colors flex items-center gap-1">
+                        Wishlist
+                        <span id="wishlist-count" class="w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center hidden">0</span>
+                    </a>
                 </nav>
-
+                <div id="nav-right" class="flex items-center gap-4">
+                    <!-- Will be populated by JavaScript -->
                 </div>
             </div>
         </div>
@@ -112,6 +117,19 @@
         // Load cart from localStorage
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
+        // Helper for safe wishlist storage retrieval
+        function getWishlistFromStorage() {
+            try {
+                const raw = localStorage.getItem('wishlist');
+                if (!raw) return [];
+                const parsed = JSON.parse(raw);
+                if (!Array.isArray(parsed)) return [];
+                return parsed.map(n => Number(n)).filter(n => !isNaN(n));
+            } catch (e) {
+                return [];
+            }
+        }
+
         // Helper: format currency
         function formatCurrency(amount) {
             return '$' + amount.toFixed(2);
@@ -120,19 +138,25 @@
         // Function to update navbar
         function updateNavbar() {
             const navRight = document.getElementById('nav-right');
+            if (!navRight) return;
+
             const token = localStorage.getItem('token');
-            const user = JSON.parse(localStorage.getItem('user'));
+            let user = null;
+            try { user = JSON.parse(localStorage.getItem('user')); } catch(e) {}
 
             if (token && user) {
                 navRight.innerHTML = `
                     <span class="text-gray-600 text-sm">Hi, ${user.fullName}</span>
                     <button id="logout-btn" class="px-4 py-2 text-sm font-medium bg-gray-100 text-gray-900 rounded-lg hover:bg-gray-200 transition-colors">Logout</button>
                 `;
-                document.getElementById('logout-btn').addEventListener('click', () => {
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('user');
-                    window.location.reload();
-                });
+                const logoutBtn = document.getElementById('logout-btn');
+                if (logoutBtn) {
+                    logoutBtn.addEventListener('click', () => {
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('user');
+                        window.location.reload();
+                    });
+                }
             } else {
                 navRight.innerHTML = `
                     <a href="index.html" class="text-sm text-gray-600 hover:text-gray-900">Sign in</a>
@@ -187,7 +211,37 @@
                 container.innerHTML = html;
             }
             
+            updateCartCount();
+            updateWishlistCount();
             updateTotals();
+        }
+
+        // Function to update cart count
+        function updateCartCount() {
+            const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+            const cartCountEl = document.getElementById('cart-count');
+            if (cartCountEl) {
+                if (cartCount > 0) {
+                    cartCountEl.textContent = cartCount;
+                    cartCountEl.classList.remove('hidden');
+                } else {
+                    cartCountEl.classList.add('hidden');
+                }
+            }
+        }
+
+        // Function to update wishlist count
+        function updateWishlistCount() {
+            const wishlist = getWishlistFromStorage();
+            const countEl = document.getElementById('wishlist-count');
+            if (countEl) {
+                if (wishlist.length > 0) {
+                    countEl.textContent = wishlist.length;
+                    countEl.classList.remove('hidden');
+                } else {
+                    countEl.classList.add('hidden');
+                }
+            }
         }
 
         // Function to update quantity
@@ -242,27 +296,41 @@
                     };
                 });
 
+                // Fetch publishable key securely from server (never hardcode in HTML)
+                const configRes = await fetch('/api/config');
+                const { publishableKey } = await configRes.json();
+
                 const response = await fetch('/create-checkout-session', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ items: checkoutItems })
                 });
 
                 const sessionData = await response.json();
-                
+
                 if (sessionData.sessionId) {
-                    const stripe = Stripe('pk_test_123456789');
+                    const stripe = Stripe(publishableKey);
                     await stripe.redirectToCheckout({ sessionId: sessionData.sessionId });
+                } else {
+                    throw new Error(sessionData.error || 'Checkout session failed');
                 }
             } catch (error) {
                 console.error('Checkout error:', error);
-                alert('Checkout is not available in this demo, but your order was received!');
+                alert('Checkout failed: ' + error.message);
             }
         });
 
+        // Initialize safely
+        function initPage() {
+            try { updateNavbar(); } catch (e) { console.error(e); }
+            try { renderCart(); } catch (e) { console.error(e); }
+        }
 
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initPage);
+        } else {
+            initPage();
+        }
     </script>
 </body>
 </html>
